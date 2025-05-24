@@ -11,14 +11,18 @@ import {
   draggable,
   dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
+
 import { cx } from 'cva'
 
 import { getColumnData } from '@/utils/getColumnData.ts'
 
-import { type TColumn } from '@/types'
+import { type TColumnWithTasks } from '@/types'
+
+import { EditableColumnTitle } from './components/EditableColumnTitle.tsx'
+import { TaskCard } from './components/TaskCard.tsx'
 
 interface ColumnProps {
-  column: TColumn
+  column: TColumnWithTasks
 }
 
 export const DraggableColumn = (props: ColumnProps) => {
@@ -77,21 +81,26 @@ export const DraggableColumn = (props: ColumnProps) => {
   }, [data])
 
   return (
-    <div ref={columnRef} className={cx('relative flex w-72 flex-shrink-0')}>
+    <div ref={columnRef} className="relative flex w-72 flex-shrink-0">
       <div
         className={cx(
-          'flex flex-grow flex-col overflow-hidden rounded border border-grey-500 duration-300 ease-in-out',
+          'flex w-full flex-grow flex-col gap-4 duration-300 ease-in-out',
           {
             'opacity-60': isDragging,
           },
         )}
       >
-        <h2
-          ref={headerRef}
-          className="flex gap-2 border-b border-grey-500 bg-grey-400 p-4 font-medium"
-        >
-          {column.title}
-        </h2>
+        <EditableColumnTitle ref={headerRef} column={column} />
+
+        {column.tasks.length ? (
+          <div className="grid gap-4">
+            {column.tasks.map((task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
+          </div>
+        ) : (
+          <div className="h-full rounded bg-grey-400" />
+        )}
       </div>
       {closestEdge && <DropIndicator edge={closestEdge} gap="16px" />}
     </div>

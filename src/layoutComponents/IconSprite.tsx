@@ -1,0 +1,27 @@
+export const IconSprite = () => {
+  return (
+    <svg className="-z-10 size-0 opacity-0" aria-hidden="true" tabIndex={-1}>
+      <symbol id="icon-magnifying-glass" viewBox="0 0 20 20">
+        <path d="M14.44 8.72a5.7 5.7 0 0 1-1.1 3.37l3.04 3.04.62.62L15.75 17l-.62-.62-3.04-3.04a5.72 5.72 0 1 1 2.34-4.62Zm-5.72 3.96a3.96 3.96 0 1 0 0-7.92 3.96 3.96 0 0 0 0 7.92Z" />
+      </symbol>
+      <symbol id="icon-rectangle-history" viewBox="0 0 20 20">
+        <path d="M18 18V7H2v11h16ZM16.5 4.5h-13V6h13V4.5ZM15 2H5v1.5h10V2Z" />
+      </symbol>
+      <symbol id="icon-house" viewBox="0 0 20 20">
+        <path d="M17 10.99h2V9.5L10.01 2 1 9.5v1.49h2V18h5v-5h4v5h5.02L17 10.99Z" />
+      </symbol>
+      <symbol id="icon-chart-network" viewBox="0 0 20 20">
+        <path d="M9 2H5v4h1.83l.91 1.95c-.8.62-1.4 1.52-1.63 2.55H4v-1H0v4h4v-1h2.11a4.5 4.5 0 0 0 7.49 2.27l2.4 1.6V18h4v-4h-3.95l-1.34-.9a4.47 4.47 0 0 0-.08-3.39L16.96 8H20V4h-4v2.23L13.45 8.1a4.49 4.49 0 0 0-3.9-1L9 5.92V2Zm1.5 8a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+      </symbol>
+      <symbol id="icon-medal" viewBox="0 0 20 20">
+        <path d="M2 2h4.5l2.7 4.05A6.47 6.47 0 0 0 5.73 7.6L2 2Zm16 0-3.73 5.6a6.47 6.47 0 0 0-3.47-1.55L13.5 2H18ZM4.5 12.5a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0Zm5.5-3-.93 1.79-2.07.28 1.5 1.4-.35 1.96L10 14l1.85.93-.35-1.97 1.5-1.39-2.07-.29L10 9.5Z" />
+      </symbol>
+      <symbol id="icon-bullseye-arrow" viewBox="0 0 20 20">
+        <path d="m13.45 8.67.9.15a4.5 4.5 0 1 1-3.17-3.17l.15.9-.98.98a2.5 2.5 0 1 0 2.12 2.12l.98-.98ZM16 10c0-.34-.03-.68-.08-1l.29-.3 1.34-1.34a8 8 0 1 1-4.91-4.91L11.3 3.79l-.29.3A6 6 0 1 0 16 10Zm-.38-2.12L15.5 8l-2.1-.35-3.12 3.13-1.06-1.06 3.13-3.13L12 4.5l.12-.12 1.51-1.51.87-.87.8 2.01.2.49.49.2 2.01.8-.87.87-1.51 1.51Z" />
+      </symbol>
+      <symbol id="icon-plus" viewBox="0 0 20 20">
+        <path d="M10.92 4.92V4H9.08v5.08H4v1.84h5.08V16h1.84v-5.08H16V9.08h-5.08V4.92Z" />
+      </symbol>
+    </svg>
+  )
+}

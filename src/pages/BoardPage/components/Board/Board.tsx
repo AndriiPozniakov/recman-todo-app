@@ -6,14 +6,16 @@ import type { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
 import { getReorderDestinationIndex } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine'
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
+
 import { useColumnsStore } from '@hooks/useColumnsStore.ts'
 
 import { isColumnData, isDraggingAColumn } from '@/types'
 
-import { DraggableColumn } from './components/DraggableColumn.tsx'
+import { CreateNewColumn } from './components/CreateNewColumn.tsx'
+import { DraggableColumn } from './components/DraggableColumn'
 
 export const Board = () => {
-  const { columns, columnOrder, reorderColumn } = useColumnsStore()
+  const { columnsWithTasks, columnOrder, reorderColumn } = useColumnsStore()
 
   const scrollableRef = useRef<HTMLDivElement | null>(null)
 
@@ -74,10 +76,12 @@ export const Board = () => {
   return (
     <div ref={scrollableRef} className="flex flex-row gap-4 overflow-auto p-8">
       {columnOrder.map((columnId) => {
-        const column = columns[columnId]
+        const column = columnsWithTasks[columnId]
 
         return <DraggableColumn key={column.id} column={column} />
       })}
+
+      <CreateNewColumn />
     </div>
   )
 }

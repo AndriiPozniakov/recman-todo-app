@@ -15,6 +15,7 @@ export default {
   tailwindFunctions: ['clsx', 'cva', 'cx'],
   importOrder: [
     '^react$',
+    '^@atlaskit/(.*)$',
     '<THIRD_PARTY_MODULES>',
     '^@/styles/(.*)$',
     '^@/hooks/(.*)$',

@@ -8,6 +8,9 @@ export default {
       fontFamily: {
         sans: ['IBM Plex Sans', 'IBM Plex Sans Fallback'],
       },
+      aria: {
+        invalid: 'invalid="true"',
+      },
     },
     colors: {
       transparent: 'transparent',
@@ -21,6 +24,17 @@ export default {
         600: '#E1E1E1',
         700: '#D6D6D6',
       },
+      blue: {
+        600: '#2563EB',
+      },
+      red: {
+        600: '#DC2626',
+        900: '#7F1D1D',
+      },
+    },
+    data: {
+      enabled: 'disabled="false"',
+      disabled: 'disabled="true"',
     },
   },
   plugins: [

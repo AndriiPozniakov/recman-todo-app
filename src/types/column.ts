@@ -1,3 +1,5 @@
+import type { TTask } from './task'
+
 export const columnKey = Symbol('column')
 
 export type TColumn = {
@@ -6,9 +8,13 @@ export type TColumn = {
   taskIds: string[]
 }
 
+export type TColumnWithTasks = TColumn & {
+  tasks: TTask[]
+}
+
 export type TColumnData = {
   [columnKey]: true
-  column: TColumn
+  column: TColumnWithTasks
 }
 
 export function isColumnData(

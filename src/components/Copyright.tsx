@@ -11,7 +11,7 @@ export const Copyright = (props: CopyrightProps) => {
 
   return (
     <div {...rest} className={cx('text-sm text-slate-800/50', className)}>
-      &copy; Todo List {currentYear}
+      &copy; Todo App {currentYear}
     </div>
   )
 }
