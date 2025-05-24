@@ -13,7 +13,7 @@ const NAVIGATION = [
 /* TODO: Implement main navigation menu with route links */
 export const Sidebar = () => {
   return (
-    <aside className="w-64 border-r border-grey-500">
+    <aside className="w-64 border-r border-grey-500 max-lg:hidden">
       <ul className="py-4">
         {NAVIGATION.map((item) => (
           <li key={item.title} className="group">

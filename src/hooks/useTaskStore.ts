@@ -1,4 +1,4 @@
-import { useAppStore } from '@/store/useAppStore.ts'
+import { useAppStore } from '@/store/useAppStore'
 
 export const useTaskStore = () => {
   const tasks = useAppStore((state) => state.tasks)

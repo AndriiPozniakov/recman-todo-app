@@ -15,14 +15,16 @@ const inputClassName = cva({
     'read-only:border-grey-500 read-only:bg-grey-400',
   ),
   variants: {
-    isSlotRight: {
-      true: 'pr-12',
-      false: 'pr-4',
-    },
-    isSlotLeft: {
-      true: 'pl-12',
-      false: 'pl-4',
-    },
+    paddingRight: { lg: 'pr-12', md: 'pr-4', sm: 'pr-2', xs: 'pr-1' },
+    paddingLeft: { lg: 'pl-12', md: 'pl-4', sm: 'pl-2', xs: 'pl-1' },
+    // isSlotRight: {
+    //   true: 'pr-12',
+    //   false: 'pr-4',
+    // },
+    // isSlotLeft: {
+    //   true: 'pl-12',
+    //   false: 'pl-4',
+    // },
     fontSize: {
       xs: 'text-xs',
       sm: 'text-sm',
@@ -34,8 +36,10 @@ const inputClassName = cva({
     },
   },
   defaultVariants: {
-    isSlotRight: false,
-    isSlotLeft: false,
+    // isSlotRight: false,
+    // isSlotLeft: false,
+    paddingLeft: 'md',
+    paddingRight: 'md',
     fontSize: 'sm',
   },
 })
@@ -63,6 +67,8 @@ export const Input = (props: InputProps) => {
     showErrorMessage = true,
     fontSize,
     weight,
+    paddingRight,
+    paddingLeft,
     ...rest
   } = props
 
@@ -83,11 +89,19 @@ export const Input = (props: InputProps) => {
           {...rest}
           id={id}
           className={inputClassName({
-            isSlotLeft: !!slotLeft,
-            isSlotRight: !!slotRight,
+            // isSlotLeft: !!slotLeft,
+            // isSlotRight: !!slotRight,
+            paddingLeft: paddingLeft ?? (slotLeft ? 'lg' : 'md'),
+            paddingRight: paddingRight ?? (slotRight ? 'lg' : 'md'),
             fontSize,
             weight,
           })}
+          onKeyDown={(e) => {
+            if (['Enter'].includes(e.key)) {
+              e.preventDefault()
+              e.currentTarget.blur()
+            }
+          }}
           aria-invalid={!!error}
           aria-describedby={error ? errorElementId : undefined}
         />

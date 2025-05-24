@@ -22,6 +22,9 @@ export const IconSprite = () => {
       <symbol id="icon-plus" viewBox="0 0 20 20">
         <path d="M10.92 4.92V4H9.08v5.08H4v1.84h5.08V16h1.84v-5.08H16V9.08h-5.08V4.92Z" />
       </symbol>
+      <symbol id="icon-image" viewBox="0 0 20 20">
+        <path d="M2 3h16v14H2V3Zm10.1 5.32-.6-.86-.6.85-2.77 3.87-.82-.93-.56-.63-.56.63-2 2.25-.19.22V15h12v-1.24l-.14-.2-3.75-5.25ZM5.5 8a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+      </symbol>
     </svg>
   )
 }

@@ -14,37 +14,32 @@ import {
 
 import { cx } from 'cva'
 
-import { getColumnData } from '@/utils/getColumnData.ts'
+import { getTaskData } from '@/utils/getTaskData'
 
-import { type TColumnWithTasks } from '@/types'
+import { isDraggingATask, type TTask } from '@/types'
 
-import { EditableColumnTitle } from './components/EditableColumnTitle.tsx'
-import { TaskCard } from './components/TaskCard.tsx'
-
-interface ColumnProps {
-  column: TColumnWithTasks
+interface TaskCardProps {
+  columnId: string
+  task: TTask
 }
 
-export const DraggableColumn = (props: ColumnProps) => {
-  const { column } = props
-  const columnRef = useRef<HTMLDivElement | null>(null)
-  const headerRef = useRef<HTMLDivElement | null>(null)
+export const TaskCard = (props: TaskCardProps) => {
+  const { columnId, task } = props
 
   const [isDragging, setIsDragging] = useState(false)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
 
-  const data = getColumnData(column)
+  const data = getTaskData(columnId, task)
 
   useEffect(() => {
-    const header = headerRef.current
-    const column = columnRef.current
+    const element = ref.current
 
-    if (!header || !column) return
+    if (!element) return
 
     return combine(
       draggable({
-        element: column,
-        dragHandle: header,
+        element: element,
         getInitialData: () => data,
         onDragStart: () => {
           setIsDragging(true)
@@ -54,13 +49,14 @@ export const DraggableColumn = (props: ColumnProps) => {
         },
       }),
       dropTargetForElements({
-        element: column,
+        element: element,
+        canDrop: isDraggingATask,
         getIsSticky: () => true,
         getData: ({ input, element }) => {
           return attachClosestEdge(data, {
             input,
             element,
-            allowedEdges: ['left', 'right'],
+            allowedEdges: ['top', 'bottom'],
           })
         },
         onDragEnter: (args) => {
@@ -81,26 +77,15 @@ export const DraggableColumn = (props: ColumnProps) => {
   }, [data])
 
   return (
-    <div ref={columnRef} className="relative flex w-72 flex-shrink-0">
+    <div className="relative">
       <div
+        ref={ref}
         className={cx(
-          'flex w-full flex-grow flex-col gap-4 duration-300 ease-in-out',
-          {
-            'opacity-60': isDragging,
-          },
+          'rounded border border-grey-500 p-4 duration-300 ease-in-out',
+          isDragging ? 'opacity-50' : 'opacity-100',
         )}
       >
-        <EditableColumnTitle ref={headerRef} column={column} />
-
-        {column.tasks.length ? (
-          <div className="grid gap-4">
-            {column.tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
-          </div>
-        ) : (
-          <div className="h-full rounded bg-grey-400" />
-        )}
+        <h3 className="font-medium">{task.title}</h3>
       </div>
       {closestEdge && <DropIndicator edge={closestEdge} gap="16px" />}
     </div>

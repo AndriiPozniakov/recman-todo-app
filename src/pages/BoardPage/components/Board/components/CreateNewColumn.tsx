@@ -1,8 +1,8 @@
-import { useColumnsStore } from '@hooks/useColumnsStore.ts'
-import { useInput } from '@hooks/useInput.ts'
+import { useColumnsStore } from '@hooks/useColumnsStore'
+import { useInput } from '@hooks/useInput'
 
 import { EditableTitle } from '@components/EditableTitle'
-import { Icon } from '@components/Icon.tsx'
+import { Icon } from '@components/Icon'
 
 const DEFAULT_COLUMN_NAME = 'Add section'
 
@@ -22,9 +22,9 @@ export const CreateNewColumn = () => {
   }
 
   return (
-    <div className="relative flex w-72 flex-shrink-0">
+    <div className="relative flex w-72 flex-shrink-0 px-2 pb-8">
       <div className="flex flex-grow flex-col gap-4 duration-300 ease-in-out">
-        <div className="h-12">
+        <div>
           <EditableTitle
             value={value}
             onChange={onChange}
@@ -32,8 +32,15 @@ export const CreateNewColumn = () => {
             onBlur={handleOnBlur}
             fontSize="md"
             weight="medium"
-            slotLeftButton={<Icon name="icon-plus" />}
+            paddingLeft="sm"
+            paddingRight="sm"
+            slotLeftButton={
+              <div className="grid size-5 place-items-center rounded-full border-2 border-blue-600">
+                <Icon name="icon-plus" className="text-blue-600" />
+              </div>
+            }
             title="Click to add new column"
+            textClassName="text-blue-600"
           />
         </div>
 

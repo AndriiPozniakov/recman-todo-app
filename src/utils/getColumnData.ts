@@ -1,6 +1,6 @@
-import { columnKey, type TColumn, type TColumnData } from '@/types'
+import { columnKey, type TColumnData, type TColumnWithTasks } from '@/types'
 
-export function getColumnData(column: TColumn): TColumnData {
+export const getColumnData = (column: TColumnWithTasks): TColumnData => {
   return {
     [columnKey]: true,
     column,

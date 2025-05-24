@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { createColumnsSlice, type TColumnsSlice } from './columnsSlice'
-import { createProjectSlice, type TProjectSlice } from './projectSlice.ts'
+import { createProjectSlice, type TProjectSlice } from './projectSlice'
 import { createTaskSlice, type TTaskSlice } from './taskSlice'
 
 type Store = TProjectSlice & TTaskSlice & TColumnsSlice

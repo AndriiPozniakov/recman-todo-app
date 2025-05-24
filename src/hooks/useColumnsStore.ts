@@ -1,6 +1,6 @@
-import { useTaskStore } from '@hooks/useTaskStore.ts'
+import { useTaskStore } from '@hooks/useTaskStore'
 
-import { useAppStore } from '@/store/useAppStore.ts'
+import { useAppStore } from '@/store/useAppStore'
 import type { TColumn, TTask } from '@/types'
 
 const mapColumnsWithTasks = (
@@ -26,6 +26,7 @@ export const useColumnsStore = () => {
   const reorderColumn = useAppStore((state) => state.reorderColumns)
   const addColumn = useAppStore((state) => state.addColumn)
   const renameColumn = useAppStore((state) => state.renameColumn)
+  const reorderTask = useAppStore((state) => state.reorderTask)
 
   const columnsWithTasks = mapColumnsWithTasks(columns, tasks)
 
@@ -36,5 +37,6 @@ export const useColumnsStore = () => {
     reorderColumn,
     addColumn,
     renameColumn,
+    reorderTask,
   }
 }

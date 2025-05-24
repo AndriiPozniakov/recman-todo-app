@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react'
 
-import { cva } from 'cva'
+import { cva, cx } from 'cva'
 
 import { Input } from './Input'
 
@@ -17,6 +17,7 @@ interface EditableTitleProps<T extends ElementType>
   extends ComponentProps<typeof Input> {
   as?: T
   slotLeftButton?: ReactNode
+  textClassName?: string
 }
 
 const contentClassName = cva({
@@ -37,6 +38,14 @@ const contentClassName = cva({
   },
 })
 
+const buttonClassName = cva({
+  base: 'flex size-full items-center justify-start gap-2 text-nowrap rounded border border-transparent px-4 duration-300 ease-in-out group-hover:border-grey-600',
+  variants: {
+    paddingRight: { lg: 'pr-12', md: 'pr-4', sm: 'pr-2', xs: 'pr-1' },
+    paddingLeft: { lg: 'pl-12', md: 'pl-4', sm: 'pl-2', xs: 'pl-1' },
+  },
+})
+
 export const EditableTitle = <T extends ElementType = 'h2'>(
   props: EditableTitleProps<T>,
 ) => {
@@ -48,7 +57,10 @@ export const EditableTitle = <T extends ElementType = 'h2'>(
     fontSize,
     weight,
     slotLeftButton,
+    paddingRight,
+    paddingLeft,
     className,
+    textClassName,
     ...rest
   } = props
 
@@ -77,6 +89,8 @@ export const EditableTitle = <T extends ElementType = 'h2'>(
       value={value}
       fontSize={fontSize}
       weight={weight}
+      paddingRight={paddingRight}
+      paddingLeft={paddingLeft}
       className={className}
       {...rest}
     />
@@ -89,10 +103,10 @@ export const EditableTitle = <T extends ElementType = 'h2'>(
         aria-controls={inputId}
         aria-expanded={isEditing}
         onClick={() => setIsEditing(true)}
-        className="flex size-full items-center justify-start gap-4 text-nowrap rounded border border-transparent px-4 duration-300 ease-in-out group-hover:border-grey-600"
+        className={buttonClassName({ paddingRight, paddingLeft })}
       >
         {slotLeftButton}
-        <span className="truncate">{value}</span>
+        <span className={cx('truncate', textClassName)}>{value}</span>
       </button>
     </Component>
   )

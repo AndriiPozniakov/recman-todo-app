@@ -12,6 +12,12 @@ type TActions = {
   removeColumn: (id: string) => void
   reorderColumns: (sourceId: number, targetId: number) => void
   renameColumn: (id: string, newTitle: string) => void
+  reorderTask: (
+    sourceColumnId: string,
+    destColumnId: string,
+    taskId: string,
+    destIndex: number,
+  ) => void
 }
 
 export type TColumnsSlice = TState & TActions
@@ -61,6 +67,24 @@ export const createColumnsSlice: StateCreator<
       if (state.columns[id]) {
         state.columns[id].title = newTitle.trim()
       }
+    })
+  },
+
+  reorderTask: (
+    sourceColumnId: string,
+    destColumnId: string,
+    taskId: string,
+    destIndex: number,
+  ) => {
+    set((state) => {
+      const sourceColumn = state.columns[sourceColumnId]
+      const destColumn = state.columns[destColumnId]
+
+      if (!sourceColumn || !destColumn) return
+
+      sourceColumn.taskIds = sourceColumn.taskIds.filter((id) => id !== taskId)
+
+      destColumn.taskIds.splice(destIndex, 0, taskId)
     })
   },
 }))

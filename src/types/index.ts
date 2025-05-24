@@ -1,2 +1,2 @@
-export * from './task.ts'
-export * from './column.ts'
+export * from './task'
+export * from './column'

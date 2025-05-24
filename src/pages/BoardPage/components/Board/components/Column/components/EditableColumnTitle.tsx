@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react'
 
-import { useColumnsStore } from '@hooks/useColumnsStore.ts'
-import { useInput } from '@hooks/useInput.ts'
+import { useColumnsStore } from '@hooks/useColumnsStore'
+import { useInput } from '@hooks/useInput'
 import { cx } from 'cva'
 
 import type { TColumnWithTasks } from '@/types'
@@ -43,6 +43,7 @@ export const EditableColumnTitle = (props: EditColumnTitleProps) => {
         onBlur={handleBlur}
         fontSize="md"
         weight="medium"
+        className="-ml-px"
       />
       <span className="text-slate-800/50">{column.tasks.length}</span>
     </div>

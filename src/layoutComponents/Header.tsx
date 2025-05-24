@@ -3,19 +3,19 @@ import { Input } from '@components/Input'
 
 export const Header = () => {
   return (
-    <header className="grid h-20 grid-cols-[auto_1fr] border-b border-grey-500">
+    <header className="grid h-20 shrink-0 grid-cols-[auto_1fr] border-b border-grey-500">
       {/* TODO: Implement clickable logo that redirects to the main page */}
-      <div className="flex w-64 items-center border-r border-grey-500 px-8 text-xl font-medium">
+      <div className="flex items-center border-grey-500 px-4 text-xl font-medium md:w-64 md:border-r md:px-8">
         <a href="/" className="-m-4 p-4">
           Todo<span className="text-blue-600">App.</span>
         </a>
       </div>
 
-      <div className="flex items-center px-8">
+      <div className="flex items-center px-4 md:px-8">
         <Input
           placeholder="Search..."
           slotRight={<Icon name="icon-magnifying-glass" />}
-          className="w-full max-w-80"
+          className="w-full lg:max-w-80"
         />
       </div>
     </header>

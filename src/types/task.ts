@@ -7,5 +7,20 @@ export type TTask = {
 
 export type TTaskData = {
   [taskKey]: true
-  todo: TTask
+  columnId: string
+  task: TTask
+}
+
+export function isTaskData(
+  value: Record<string | symbol, unknown>,
+): value is TTaskData {
+  return Boolean(value[taskKey])
+}
+
+export function isDraggingATask({
+  source,
+}: {
+  source: { data: Record<string | symbol, unknown> }
+}): boolean {
+  return isTaskData(source.data)
 }
