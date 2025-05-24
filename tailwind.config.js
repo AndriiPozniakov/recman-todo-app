@@ -8,10 +8,12 @@ export default {
       },
     },
     colors: {
+      white: '#FFF',
       slate: {
         800: '#1E293B',
       },
       grey: {
+        400: '#F5F5F5',
         500: '#EBEBEB',
       },
     },

@@ -1,14 +1,16 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { createTaskSlice, type TodoSlice } from './todoSlice.ts'
+import { createColumnsSlice, type TColumnsSlice } from './columnsSlice.ts'
+import { createTaskSlice, type TTaskSlice } from './taskSlice.ts'
 
-type Store = TodoSlice
+type Store = TTaskSlice & TColumnsSlice
 
 export const useAppStore = create<Store>()(
   persist(
     (...a) => ({
       ...createTaskSlice(...a),
+      ...createColumnsSlice(...a),
     }),
     {
       name: 'todo-app-storage',

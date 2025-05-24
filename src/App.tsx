@@ -1,19 +1,19 @@
-import { Footer } from '@layoutComponents/Footer.tsx'
-import { Header } from '@layoutComponents/Header.tsx'
-import { Sidebar } from '@layoutComponents/Sidebar.tsx'
+import { Footer } from '@layoutComponents/Footer'
+import { Header } from '@layoutComponents/Header'
+import { Sidebar } from '@layoutComponents/Sidebar'
 
-import { TodoListPage } from '@/pages/TodoListPage.tsx'
+import { BoardPage } from '@/pages/BoardPage'
 
 function App() {
   return (
-    <div className="grid grid-cols-[auto_1fr]">
+    <div className="bg-white grid grid-cols-[auto_1fr] text-slate-800">
       <Sidebar />
 
       <div className="flex h-screen flex-col">
         <Header />
 
         <main className="flex-1 overflow-auto">
-          <TodoListPage />
+          <BoardPage />
         </main>
 
         <Footer />
