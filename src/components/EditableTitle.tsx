@@ -6,9 +6,9 @@ import {
   useEffect,
   useId,
   useRef,
-  useState,
 } from 'react'
 
+import { useControllableState } from '@hooks/useControllableState.ts'
 import { cva, cx } from 'cva'
 
 import { Input } from './Input'
@@ -18,6 +18,9 @@ interface EditableTitleProps<T extends ElementType>
   as?: T
   slotLeftButton?: ReactNode
   textClassName?: string
+
+  isEditing?: boolean
+  onEditingChange?: (value: boolean) => void
 }
 
 const contentClassName = cva({
@@ -61,13 +64,19 @@ export const EditableTitle = <T extends ElementType = 'h2'>(
     paddingLeft,
     className,
     textClassName,
+    isEditing: propIsEditing,
+    onEditingChange,
     ...rest
   } = props
 
   const inputRef = useRef<HTMLInputElement>(null)
 
   const inputId = useId()
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useControllableState({
+    value: propIsEditing,
+    onChange: onEditingChange,
+    defaultValue: false,
+  })
 
   const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
     setIsEditing(false)

@@ -15,10 +15,11 @@ export const CreateNewColumn = () => {
   }
 
   const handleOnBlur = () => {
-    setValue(DEFAULT_COLUMN_NAME)
+    if (value.trim() !== '') {
+      addColumn({ title: value })
+    }
 
-    if (value.trim() === '') return
-    addColumn({ title: value })
+    setValue(DEFAULT_COLUMN_NAME)
   }
 
   return (

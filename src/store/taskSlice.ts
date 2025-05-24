@@ -1,6 +1,8 @@
 import { type StateCreator } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
+import { safeUUID } from '@/utils/safeUUID.ts'
+
 import type { TTask } from '@/types'
 
 type TTaskSliceMutators = [['zustand/immer', never]]
@@ -31,7 +33,7 @@ export const createTaskSlice: StateCreator<TTaskSlice, [], TTaskSliceMutators> =
 
     addTask: (todo) => {
       set((state) => {
-        const id = crypto.randomUUID()
+        const id = safeUUID()
         state.tasks[id] = { id, ...todo }
       })
     },

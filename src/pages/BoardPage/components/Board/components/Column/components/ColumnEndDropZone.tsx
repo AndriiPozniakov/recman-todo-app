@@ -9,16 +9,25 @@ import { getColumnEndDropZoneData } from '@/utils/getColumnEndDropZoneData'
 import { isDraggingATask } from '@/types'
 
 const columnEndDropZoneClassName = cva({
-  base: 'flex-grow rounded bg-grey-400 duration-300 ease-in-out',
+  base: 'flex-grow rounded duration-300 ease-in-out',
   variants: {
     intent: {
-      transparent: 'bg-transparent',
-      'grey-400': 'bg-grey-400',
+      transparent: '',
+      'grey-400': '',
     },
     hover: {
-      true: 'bg-blue-50',
+      true: '',
     },
   },
+  compoundVariants: [
+    { intent: 'transparent', hover: false, className: 'bg-transparent' },
+    { intent: 'grey-400', hover: false, className: 'bg-grey-400' },
+    {
+      intent: ['transparent', 'grey-400'],
+      hover: true,
+      className: 'bg-blue-50',
+    },
+  ],
   defaultVariants: {
     intent: 'transparent',
   },

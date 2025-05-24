@@ -104,20 +104,6 @@ export const Column = (props: ColumnProps) => {
             intent={column.tasks.length ? 'transparent' : 'grey-400'}
           />
         </div>
-
-        {/*{column.tasks.length ? (*/}
-        {/*  <div className="-mx-2 flex h-full flex-col gap-4 overflow-auto px-2 pb-8 pt-4">*/}
-        {/*    {column.tasks.map((task) => (*/}
-        {/*      <TaskCard key={task.id} columnId={column.id} task={task} />*/}
-        {/*    ))}*/}
-
-        {/*    <CardDropTarget />*/}
-        {/*  </div>*/}
-        {/*) : (*/}
-        {/*  <div className="mb-8 mt-4 flex h-full rounded bg-grey-400">*/}
-        {/*    <CardDropTarget />*/}
-        {/*  </div>*/}
-        {/*)}*/}
       </div>
 
       {closestEdge && <DropIndicator edge={closestEdge} gap="0px" />}

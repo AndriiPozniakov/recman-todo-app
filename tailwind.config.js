@@ -8,6 +8,9 @@ export default {
       fontFamily: {
         sans: ['IBM Plex Sans', 'IBM Plex Sans Fallback'],
       },
+      zIndex: {
+        dropdown: 1000,
+      },
       aria: {
         invalid: 'invalid="true"',
       },

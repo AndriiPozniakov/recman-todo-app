@@ -1,6 +1,8 @@
 import type { StateCreator } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
+import { safeUUID } from '@/utils/safeUUID.ts'
+
 import type { TColumn } from '@/types'
 
 type TColumnsSliceMutators = [['zustand/immer', never]]
@@ -8,7 +10,7 @@ type TColumnsSliceMutators = [['zustand/immer', never]]
 type TColumnInput = Omit<TColumn, 'id' | 'taskIds'>
 type TState = { columns: Record<string, TColumn>; columnOrder: string[] }
 type TActions = {
-  addColumn: (column: TColumnInput) => void
+  addColumn: (column: TColumnInput) => string
   removeColumn: (id: string) => void
   reorderColumns: (sourceId: number, targetId: number) => void
   renameColumn: (id: string, newTitle: string) => void
@@ -35,11 +37,13 @@ export const createColumnsSlice: StateCreator<
   columnOrder: ['1', '2', '3'],
 
   addColumn: (column) => {
-    const id = crypto.randomUUID()
+    const id = safeUUID()
     set((state) => {
       state.columns[id] = { id, taskIds: [], ...column }
       state.columnOrder.push(id)
     })
+
+    return id
   },
 
   removeColumn: (id) => {
@@ -77,12 +81,15 @@ export const createColumnsSlice: StateCreator<
     destIndex: number,
   ) => {
     set((state) => {
-      const sourceColumn = state.columns[sourceColumnId]
       const destColumn = state.columns[destColumnId]
+      if (!destColumn) return
 
-      if (!sourceColumn || !destColumn) return
-
-      sourceColumn.taskIds = sourceColumn.taskIds.filter((id) => id !== taskId)
+      if (sourceColumnId && state.columns[sourceColumnId]) {
+        const sourceColumn = state.columns[sourceColumnId]
+        sourceColumn.taskIds = sourceColumn.taskIds.filter(
+          (id) => id !== taskId,
+        )
+      }
 
       destColumn.taskIds.splice(destIndex, 0, taskId)
     })
