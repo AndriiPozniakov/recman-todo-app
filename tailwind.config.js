@@ -7,6 +7,14 @@ export default {
         sans: ['IBM Plex Sans', 'IBM Plex Sans Fallback'],
       },
     },
+    colors: {
+      slate: {
+        800: '#1E293B',
+      },
+      grey: {
+        500: '#EBEBEB',
+      },
+    },
   },
   plugins: [],
 }
