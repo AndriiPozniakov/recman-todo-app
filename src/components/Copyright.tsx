@@ -10,7 +10,7 @@ export const Copyright = (props: CopyrightProps) => {
   const { className, ...rest } = props
 
   return (
-    <div {...rest} className={cx('text-slate-800/50', className)}>
+    <div {...rest} className={cx('text-sm text-slate-800/50', className)}>
       &copy; Todo List {currentYear}
     </div>
   )

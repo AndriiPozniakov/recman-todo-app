@@ -24,8 +24,11 @@ export const createColumnsSlice: StateCreator<
     '1': { id: '1', title: 'To Do', taskIds: [] },
     '2': { id: '2', title: 'In Progress', taskIds: [] },
     '3': { id: '3', title: 'Done', taskIds: [] },
+    '4': { id: '4', title: 'Done 4', taskIds: [] },
+    '5': { id: '5', title: 'Done 5', taskIds: [] },
+    '6': { id: '6', title: 'Done 6', taskIds: [] },
   },
-  columnOrder: ['1', '2', '3'],
+  columnOrder: ['1', '2', '3', '4', '5', '6'],
 
   addColumn: (column) => {
     const id = crypto.randomUUID()

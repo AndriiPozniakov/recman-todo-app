@@ -6,18 +6,18 @@ import { BoardPage } from '@/pages/BoardPage'
 
 function App() {
   return (
-    <div className="bg-white grid grid-cols-[auto_1fr] text-slate-800">
-      <Sidebar />
+    <div className="flex h-screen flex-col bg-white text-slate-800">
+      <Header />
 
-      <div className="flex h-screen flex-col">
-        <Header />
+      <div className="grid flex-1 grid-cols-[auto_1fr]">
+        <Sidebar />
 
-        <main className="flex-1 overflow-auto">
+        <main className="overflow-auto">
           <BoardPage />
         </main>
-
-        <Footer />
       </div>
+
+      <Footer />
     </div>
   )
 }

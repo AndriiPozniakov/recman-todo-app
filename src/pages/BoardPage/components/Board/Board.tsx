@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
+import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'
 import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge'
 import type { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types'
 import { getReorderDestinationIndex } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index'
@@ -13,6 +14,8 @@ import { DraggableColumn } from './components/DraggableColumn.tsx'
 
 export const Board = () => {
   const { columns, columnOrder, reorderColumn } = useColumnsStore()
+
+  const scrollableRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     return combine(
@@ -58,8 +61,18 @@ export const Board = () => {
     )
   }, [columnOrder, reorderColumn])
 
+  useEffect(() => {
+    const scrollableElement = scrollableRef.current
+
+    if (!scrollableElement) return
+
+    return autoScrollForElements({
+      element: scrollableElement,
+    })
+  }, [])
+
   return (
-    <div className="flex flex-row gap-4">
+    <div ref={scrollableRef} className="flex flex-row gap-4 overflow-auto p-8">
       {columnOrder.map((columnId) => {
         const column = columns[columnId]
 

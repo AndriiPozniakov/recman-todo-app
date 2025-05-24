@@ -77,21 +77,21 @@ export const DraggableColumn = (props: ColumnProps) => {
   }, [data])
 
   return (
-    <div ref={columnRef} className={cx('relative flex w-72')}>
+    <div ref={columnRef} className={cx('relative flex w-72 flex-shrink-0')}>
       <div
         className={cx(
-          'flex flex-grow flex-col overflow-hidden rounded border border-grey-500',
+          'flex flex-grow flex-col overflow-hidden rounded border border-grey-500 duration-300 ease-in-out',
           {
             'opacity-60': isDragging,
           },
         )}
       >
-        <div
+        <h2
           ref={headerRef}
           className="flex gap-2 border-b border-grey-500 bg-grey-400 p-4 font-medium"
         >
           {column.title}
-        </div>
+        </h2>
       </div>
       {closestEdge && <DropIndicator edge={closestEdge} gap="16px" />}
     </div>
