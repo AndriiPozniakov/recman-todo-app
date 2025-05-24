@@ -1,0 +1,19 @@
+[production]
+last 2 versions
+last 2 years and > 0.2%
+not dead
+not ie 11
+not op_mini all
+chrome >= 88
+edge >= 88
+opera >= 74
+safari >= 15.4
+firefox >= 96
+iOS >= 15.4
+Samsung >= 15
+
+[development]
+last 3 chrome version
+last 3 firefox version
+last 3 safari version
+last 3 ios version
