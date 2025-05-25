@@ -3,6 +3,7 @@ export const taskKey = Symbol('task')
 export type TTask = {
   id: string
   title: string
+  isCompleted: boolean
 }
 
 export type TTaskData = {

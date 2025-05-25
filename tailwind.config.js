@@ -42,6 +42,9 @@ export default {
         600: '#16A34A',
         700: '#15803D',
       },
+      yellow: {
+        600: '#CA8A04',
+      },
     },
     data: {
       enabled: 'disabled="false"',
