@@ -66,7 +66,7 @@ export const TaskCard = (props: TaskCardProps) => {
   const { isCompleted } = task
 
   const [isTitleEditing, setIsTitleEditing] = useState(false)
-  const { toggleComplete, removeTask } = useTaskStore()
+  const { toggleComplete, removeTaskFromColumn } = useTaskStore()
   const { selectTask, unselectTask, isTaskSelected, isSelectMode } =
     useBoardContext()
 
@@ -123,7 +123,7 @@ export const TaskCard = (props: TaskCardProps) => {
         },
       }),
     )
-  }, [data, isSelectMode])
+  }, [data, isSelectMode, isTitleEditing])
 
   const handleOnSelect = (eventKey: string) => {
     switch (eventKey) {
@@ -134,7 +134,7 @@ export const TaskCard = (props: TaskCardProps) => {
         toggleComplete(task.id)
         break
       case 'delete-task':
-        removeTask(columnId, task.id)
+        removeTaskFromColumn(columnId, task.id)
         break
     }
   }

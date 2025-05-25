@@ -21,6 +21,7 @@ type TActions = {
     destIndex: number,
   ) => void
   removeTaskFromColumn: (columnId: string, taskId: string) => void
+  addTaskToColumn: (columnId: string, taskId: string) => void
 }
 
 export type TColumnsSlice = TState & TActions
@@ -102,6 +103,15 @@ export const createColumnsSlice: StateCreator<
       if (!column) return
 
       column.taskIds = column.taskIds.filter((id) => id !== taskId)
+    })
+  },
+
+  addTaskToColumn: (columnId, taskId) => {
+    set((state) => {
+      const column = state.columns[columnId]
+      if (!column) return
+
+      column.taskIds.unshift(taskId)
     })
   },
 }))

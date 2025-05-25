@@ -18,6 +18,7 @@ interface EditColumnTitleProps extends ComponentProps<'div'> {
 }
 
 const MENU_ITEMS_BASE: TDropdownItem[] = [
+  { eventKey: 'add-task', title: 'Add task', iconName: 'icon-plus' },
   { eventKey: 'rename', title: 'Rename section', iconName: 'icon-pen' },
 ]
 
@@ -58,7 +59,8 @@ export const EditableColumnTitle = (props: EditColumnTitleProps) => {
   const { renameColumn, removeColumnAndMoveTasks, removeColumnWithTasks } =
     useColumnsStore()
 
-  const { selectBulkTasks, unselectBulkTasks } = useBoardContext()
+  const { selectBulkTasks, unselectBulkTasks, createNewTask } =
+    useBoardContext()
 
   const { value, setValue, onChange } = useInput(column.title)
   const [isEditing, setIsEditing] = useState(false)
@@ -75,6 +77,9 @@ export const EditableColumnTitle = (props: EditColumnTitleProps) => {
 
   const handleMenuItemSelect = (eventKey: string) => {
     switch (eventKey) {
+      case 'add-task':
+        createNewTask(column.id)
+        break
       case 'rename':
         setIsEditing(true)
         break

@@ -10,7 +10,7 @@ type TTaskSliceMutators = [['zustand/immer', never]]
 type TTaskInput = Omit<TTask, 'id' | 'isCompleted'>
 type TState = { tasks: Record<string, TTask> }
 type TActions = {
-  addTask: (todo: TTaskInput) => void
+  addTask: (todo: TTaskInput) => string
   removeTask: (id: string) => void
   toggleComplete: (id: string) => void
   renameTask: (id: string, newTitle: string) => void
@@ -34,10 +34,12 @@ export const createTaskSlice: StateCreator<TTaskSlice, [], TTaskSliceMutators> =
     },
 
     addTask: (todo) => {
+      const id = safeUUID()
       set((state) => {
-        const id = safeUUID()
         state.tasks[id] = { id, isCompleted: false, ...todo }
       })
+
+      return id
     },
 
     removeTask: (id) =>

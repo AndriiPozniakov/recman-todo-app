@@ -10,6 +10,10 @@ interface BoardContextType {
   unselectTask: (id: string) => void
   clearSelectedTasks: () => void
   isTaskSelected: (id: string) => boolean
+
+  createNewTask: (id: string) => void
+  resetNewTaskColumn: () => void
+  createNewTaskColumnId: string | null
 }
 
 export const BoardContext = createContext<BoardContextType>({
@@ -22,4 +26,8 @@ export const BoardContext = createContext<BoardContextType>({
   unselectTask: () => {},
   clearSelectedTasks: () => {},
   isTaskSelected: () => false,
+
+  createNewTask: () => {},
+  resetNewTaskColumn: () => {},
+  createNewTaskColumnId: null,
 })

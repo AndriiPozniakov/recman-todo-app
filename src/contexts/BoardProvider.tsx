@@ -5,6 +5,9 @@ import { BoardContext } from './BoardContext'
 export const BoardProvider = ({ children }: PropsWithChildren) => {
   const [isSelectMode, setIsSelectMode] = useState(false)
   const [selectedTaskIds, setSelectedTaskIds] = useState<string[]>([])
+  const [createNewTaskColumnId, setCreateNewTaskColumnId] = useState<
+    string | null
+  >(null)
 
   const handleToggleSelectMode = useCallback(() => {
     setIsSelectMode((prev) => {
@@ -52,6 +55,14 @@ export const BoardProvider = ({ children }: PropsWithChildren) => {
     [selectedTaskIds],
   )
 
+  const createNewTask = useCallback((columnId: string) => {
+    setCreateNewTaskColumnId(columnId)
+  }, [])
+
+  const resetNewTaskColumn = useCallback(() => {
+    setCreateNewTaskColumnId(null)
+  }, [])
+
   const value = useMemo(
     () => ({
       isSelectMode,
@@ -63,6 +74,9 @@ export const BoardProvider = ({ children }: PropsWithChildren) => {
       clearSelectedTasks,
       selectBulkTasks,
       isTaskSelected,
+      createNewTask,
+      createNewTaskColumnId,
+      resetNewTaskColumn,
     }),
     [
       isSelectMode,
@@ -74,6 +88,9 @@ export const BoardProvider = ({ children }: PropsWithChildren) => {
       clearSelectedTasks,
       selectBulkTasks,
       isTaskSelected,
+      createNewTask,
+      createNewTaskColumnId,
+      resetNewTaskColumn,
     ],
   )
 

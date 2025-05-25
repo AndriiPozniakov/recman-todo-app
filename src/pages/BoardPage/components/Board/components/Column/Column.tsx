@@ -16,9 +16,11 @@ import { cx } from 'cva'
 
 import { getColumnData } from '@/utils/getColumnData'
 
+import { useBoardContext } from '@/contexts/useBoardContext'
 import { isDraggingAColumn, type TColumnWithTasks } from '@/types'
 
 import { ColumnEndDropZone } from './components/ColumnEndDropZone'
+import { CreateNewTask } from './components/CreateNewTask'
 import { EditableColumnTitle } from './components/EditableColumnTitle'
 import { TaskCard } from './components/TaskCard'
 
@@ -30,6 +32,8 @@ export const Column = (props: ColumnProps) => {
   const { column } = props
   const columnRef = useRef<HTMLDivElement | null>(null)
   const headerRef = useRef<HTMLDivElement | null>(null)
+
+  const { createNewTaskColumnId } = useBoardContext()
 
   const [isDragging, setIsDragging] = useState(false)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
@@ -95,6 +99,10 @@ export const Column = (props: ColumnProps) => {
         <EditableColumnTitle ref={headerRef} column={column} />
 
         <div className="-mx-2 flex h-full flex-col gap-4 overflow-auto px-2 pb-8 pt-4">
+          {createNewTaskColumnId && column.id === createNewTaskColumnId && (
+            <CreateNewTask columnId={column.id} />
+          )}
+
           {column.tasks.map((task) => (
             <TaskCard key={task.id} columnId={column.id} task={task} />
           ))}
