@@ -12,18 +12,19 @@ import {
   dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 
-import { useTaskStore } from '@hooks/useTaskStore.ts'
+import { useTaskStore } from '@hooks/useTaskStore'
 import { cva, cx } from 'cva'
 
 import { getTaskData } from '@/utils/getTaskData'
 
+import { useBoardContext } from '@/contexts/useBoardContext'
 import { isDraggingATask, type TTask } from '@/types'
 
-import { DropdownMenu } from '@components/DropdownMenu.tsx'
-import { Icon } from '@components/Icon.tsx'
+import { DropdownMenu } from '@components/DropdownMenu'
+import { Icon } from '@components/Icon'
 
 const taskCardClassName = cva({
-  base: 'grid gap-2 rounded border border-grey-500 p-4 duration-300 ease-in-out',
+  base: 'grid w-full gap-2 rounded border border-grey-500 bg-white p-4 text-start duration-300 ease-in-out',
   variants: {
     isDragging: {
       true: 'opacity-50',
@@ -33,11 +34,22 @@ const taskCardClassName = cva({
       true: 'opacity-50',
       false: '',
     },
+    isChecked: {
+      true: '!border-blue-200 !bg-blue-50',
+    },
+    isSelectMode: {
+      true: 'hocus:border-blue-200',
+    },
   },
   compoundVariants: [
     { isCompleted: false, isDragging: false, className: 'opacity-100' },
   ],
-  defaultVariants: { isDragging: false, isCompleted: false },
+  defaultVariants: {
+    isDragging: false,
+    isCompleted: false,
+    isChecked: false,
+    isSelectMode: false,
+  },
 })
 
 interface TaskCardProps {
@@ -50,10 +62,16 @@ export const TaskCard = (props: TaskCardProps) => {
   const { isCompleted } = task
 
   const { toggleComplete } = useTaskStore()
+  const { isSelectMode } = useBoardContext()
 
+  const [checked, setIsChecked] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
-  const ref = useRef<HTMLDivElement | null>(null)
+  const ref = useRef<HTMLElement>(null)
+
+  const setRef = (el: HTMLDivElement | HTMLButtonElement | null) => {
+    ref.current = el
+  }
 
   const data = getTaskData(columnId, task)
 
@@ -65,6 +83,7 @@ export const TaskCard = (props: TaskCardProps) => {
     return combine(
       draggable({
         element: element,
+        canDrag: () => !isSelectMode,
         getInitialData: () => data,
         onDragStart: () => {
           setIsDragging(true)
@@ -99,7 +118,7 @@ export const TaskCard = (props: TaskCardProps) => {
         },
       }),
     )
-  }, [data])
+  }, [data, isSelectMode])
 
   const handleOnSelect = (eventKey: string) => {
     switch (eventKey) {
@@ -109,18 +128,31 @@ export const TaskCard = (props: TaskCardProps) => {
     }
   }
 
+  const Component = isSelectMode ? 'button' : 'div'
+  const componentProps = isSelectMode
+    ? {
+        onClick: () => setIsChecked((prev) => !prev),
+        'aria-checked': checked,
+        role: 'checkbox',
+      }
+    : {}
+
   return (
     <div className="relative">
-      <div
-        ref={ref}
+      <Component
+        ref={setRef}
         className={taskCardClassName({
           isDragging,
           isCompleted,
+          isSelectMode,
+          isChecked: checked,
         })}
+        {...componentProps}
       >
         <div className="flex items-center gap-2 overflow-hidden">
           <h3 className="flex-grow truncate font-medium">{task.title}</h3>
           <DropdownMenu
+            disabled={isSelectMode}
             triggerContent={<Icon name="icon-three-dots" />}
             onSelect={handleOnSelect}
             menuItems={[
@@ -142,7 +174,7 @@ export const TaskCard = (props: TaskCardProps) => {
             {isCompleted ? 'Completed' : 'Incomplete'}
           </div>
         </div>
-      </div>
+      </Component>
       {closestEdge && <DropIndicator edge={closestEdge} gap="16px" />}
     </div>
   )

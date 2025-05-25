@@ -1,18 +1,19 @@
-import type { ReactNode } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 
 import { useDropdownContext } from './DropdownContext.ts'
 
-interface DropdownTriggerProps {
+interface DropdownTriggerProps extends ComponentProps<'button'> {
   children?: ReactNode
   className?: string
 }
 
 export const DropdownTrigger = (props: DropdownTriggerProps) => {
-  const { children, className } = props
+  const { children, className, ...rest } = props
   const { refs, setOpen, getReferenceProps } = useDropdownContext()
 
   return (
     <button
+      {...rest}
       {...getReferenceProps()}
       ref={refs.setReference}
       onClick={() => setOpen((prev) => !prev)}

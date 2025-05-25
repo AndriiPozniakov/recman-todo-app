@@ -15,6 +15,7 @@ import { Icon } from '@components/Icon.tsx'
 interface DropdownMenuProps {
   triggerContent: ReactNode
   menuItems: TDropdownItem[]
+  disabled?: boolean
   onSelect?: (eventKey: string) => void
 }
 
@@ -25,16 +26,17 @@ const isDropdownItemEntry = (
 }
 
 export const DropdownMenu = (props: DropdownMenuProps) => {
-  const { onSelect, triggerContent, menuItems } = props
+  const { onSelect, triggerContent, menuItems, disabled } = props
   const [open, setOpen] = useState(false)
 
   return (
     <Dropdown open={open} setOpen={setOpen} onSelect={onSelect}>
       <DropdownTrigger
-        className={cx(
-          'rounded p-2 duration-300 ease-in-out',
-          open ? 'bg-grey-600' : 'hocus:bg-grey-600',
-        )}
+        disabled={disabled}
+        className={cx('rounded p-2 duration-300 ease-in-out', {
+          'bg-grey-600': !disabled && open,
+          'hocus:bg-grey-600': !disabled && !open,
+        })}
       >
         {triggerContent}
       </DropdownTrigger>

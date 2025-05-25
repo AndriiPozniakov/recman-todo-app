@@ -49,6 +49,8 @@ export default {
     data: {
       enabled: 'disabled="false"',
       disabled: 'disabled="true"',
+      checked: 'state="checked"',
+      unchecked: 'state="unchecked"',
     },
   },
   plugins: [
