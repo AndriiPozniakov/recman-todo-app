@@ -4,7 +4,7 @@ interface IOSColumnPreviewProps {
 
 export const IOSColumnPreview = (props: IOSColumnPreviewProps) => {
   return (
-    <div className="h-12 w-[272px] border-grey-500 bg-grey-400 p-4">
+    <div className="flex items-center h-12 w-[272px] font-medium border-grey-500 bg-grey-400 p-4">
       {props.title}
     </div>
   )

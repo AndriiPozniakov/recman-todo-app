@@ -196,7 +196,7 @@ export const TaskCard = (props: TaskCardProps) => {
   ]
 
   return (
-    <div className="relative">
+    <div className="relative select-none">
       <Component
         ref={setRef}
         className={taskCardClassName({

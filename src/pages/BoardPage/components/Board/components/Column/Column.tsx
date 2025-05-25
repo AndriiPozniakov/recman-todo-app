@@ -133,7 +133,7 @@ export const Column = (props: ColumnProps) => {
   return (
     <div
       ref={columnRef}
-      className={cx('relative flex w-72 shrink-0 px-2', {
+      className={cx('relative flex w-72 select-none shrink-0 px-2', {
         isolate: previewState?.type === 'default',
       })}
     >
