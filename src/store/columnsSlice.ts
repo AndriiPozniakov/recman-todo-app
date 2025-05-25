@@ -20,6 +20,7 @@ type TActions = {
     taskId: string,
     destIndex: number,
   ) => void
+  removeTaskFromColumn: (columnId: string, taskId: string) => void
 }
 
 export type TColumnsSlice = TState & TActions
@@ -92,6 +93,15 @@ export const createColumnsSlice: StateCreator<
       }
 
       destColumn.taskIds.splice(destIndex, 0, taskId)
+    })
+  },
+
+  removeTaskFromColumn: (columnId, taskId) => {
+    set((state) => {
+      const column = state.columns[columnId]
+      if (!column) return
+
+      column.taskIds = column.taskIds.filter((id) => id !== taskId)
     })
   },
 }))

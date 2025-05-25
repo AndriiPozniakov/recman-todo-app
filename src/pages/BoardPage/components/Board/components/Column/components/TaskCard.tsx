@@ -17,6 +17,8 @@ import { cva, cx } from 'cva'
 
 import { getTaskData } from '@/utils/getTaskData'
 
+import type { TDropdownItem } from '@/types/dropdownItem.ts'
+
 import { useBoardContext } from '@/contexts/useBoardContext'
 import { isDraggingATask, type TTask } from '@/types'
 
@@ -61,7 +63,7 @@ export const TaskCard = (props: TaskCardProps) => {
   const { columnId, task } = props
   const { isCompleted } = task
 
-  const { toggleComplete } = useTaskStore()
+  const { toggleComplete, removeTask } = useTaskStore()
   const { selectTask, unselectTask, isTaskSelected, isSelectMode } =
     useBoardContext()
 
@@ -125,6 +127,9 @@ export const TaskCard = (props: TaskCardProps) => {
       case 'toggleComplete':
         toggleComplete(task.id)
         break
+      case 'delete-task':
+        removeTask(columnId, task.id)
+        break
     }
   }
 
@@ -139,6 +144,18 @@ export const TaskCard = (props: TaskCardProps) => {
         role: 'checkbox',
       }
     : {}
+
+  const menuItems: TDropdownItem[] = [
+    {
+      eventKey: 'toggleComplete',
+      title: `Mark ${isCompleted ? 'incomplete' : 'complete'}`,
+    },
+    { type: 'divider' },
+    {
+      eventKey: 'delete-task',
+      title: 'Delete task',
+    },
+  ]
 
   return (
     <div className="relative">
@@ -158,12 +175,7 @@ export const TaskCard = (props: TaskCardProps) => {
             disabled={isSelectMode}
             triggerContent={<Icon name="icon-three-dots" />}
             onSelect={handleOnSelect}
-            menuItems={[
-              {
-                eventKey: 'toggleComplete',
-                title: `Mark ${isCompleted ? 'incomplete' : 'complete'}`,
-              },
-            ]}
+            menuItems={menuItems}
           />
         </div>
         <div className="flex items-center gap-2">
