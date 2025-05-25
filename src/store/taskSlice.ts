@@ -13,6 +13,7 @@ type TActions = {
   addTask: (todo: TTaskInput) => void
   removeTask: (id: string) => void
   toggleComplete: (id: string) => void
+  renameTask: (id: string, newTitle: string) => void
 }
 
 export type TTaskSlice = TState & TActions
@@ -49,6 +50,14 @@ export const createTaskSlice: StateCreator<TTaskSlice, [], TTaskSliceMutators> =
         const task = state.tasks[id]
         if (task) {
           task.isCompleted = !task.isCompleted
+        }
+      }),
+
+    renameTask: (id, newTitle) =>
+      set((state) => {
+        const task = state.tasks[id]
+        if (task) {
+          task.title = newTitle.trim()
         }
       }),
   }))

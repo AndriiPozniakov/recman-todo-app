@@ -5,6 +5,7 @@ export const useTaskStore = () => {
   const addTask = useAppStore((state) => state.addTask)
   const removeTask = useAppStore((state) => state.removeTask)
   const toggleComplete = useAppStore((state) => state.toggleComplete)
+  const renameTask = useAppStore((state) => state.renameTask)
   const removeTaskFromColumn = useAppStore(
     (state) => state.removeTaskFromColumn,
   )
@@ -14,5 +15,11 @@ export const useTaskStore = () => {
     removeTaskFromColumn(columnId, taskId)
   }
 
-  return { tasks, addTask, removeTask: handleRemoveTask, toggleComplete }
+  return {
+    tasks,
+    addTask,
+    removeTask: handleRemoveTask,
+    toggleComplete,
+    renameTask,
+  }
 }

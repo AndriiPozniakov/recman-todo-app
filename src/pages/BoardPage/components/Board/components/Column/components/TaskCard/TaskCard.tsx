@@ -25,8 +25,10 @@ import { isDraggingATask, type TTask } from '@/types'
 import { DropdownMenu } from '@components/DropdownMenu'
 import { Icon } from '@components/Icon'
 
+import { EditableTaskTitle } from './components/EditableTaskTitle'
+
 const taskCardClassName = cva({
-  base: 'grid w-full gap-2 rounded border border-grey-500 bg-white p-4 text-start duration-300 ease-in-out',
+  base: 'grid w-full rounded border border-grey-500 bg-white px-4 pb-4 pt-2 text-start duration-300 ease-in-out',
   variants: {
     isDragging: {
       true: 'opacity-50',
@@ -63,6 +65,7 @@ export const TaskCard = (props: TaskCardProps) => {
   const { columnId, task } = props
   const { isCompleted } = task
 
+  const [isTitleEditing, setIsTitleEditing] = useState(false)
   const { toggleComplete, removeTask } = useTaskStore()
   const { selectTask, unselectTask, isTaskSelected, isSelectMode } =
     useBoardContext()
@@ -85,7 +88,7 @@ export const TaskCard = (props: TaskCardProps) => {
     return combine(
       draggable({
         element: element,
-        canDrag: () => !isSelectMode,
+        canDrag: () => !isSelectMode && !isTitleEditing,
         getInitialData: () => data,
         onDragStart: () => {
           setIsDragging(true)
@@ -124,7 +127,10 @@ export const TaskCard = (props: TaskCardProps) => {
 
   const handleOnSelect = (eventKey: string) => {
     switch (eventKey) {
-      case 'toggleComplete':
+      case 'rename':
+        setIsTitleEditing(true)
+        break
+      case 'toggle-complete':
         toggleComplete(task.id)
         break
       case 'delete-task':
@@ -147,7 +153,12 @@ export const TaskCard = (props: TaskCardProps) => {
 
   const menuItems: TDropdownItem[] = [
     {
-      eventKey: 'toggleComplete',
+      eventKey: 'rename',
+      title: 'Rename',
+      iconName: 'icon-pen',
+    },
+    {
+      eventKey: 'toggle-complete',
       title: `Mark ${isCompleted ? 'incomplete' : 'complete'}`,
     },
     { type: 'divider' },
@@ -169,8 +180,13 @@ export const TaskCard = (props: TaskCardProps) => {
         })}
         {...componentProps}
       >
-        <div className="flex items-center gap-2 overflow-hidden">
-          <h3 className="flex-grow truncate font-medium">{task.title}</h3>
+        <div className="-ml-1 grid grid-cols-[1fr_auto] items-center gap-2">
+          <EditableTaskTitle
+            task={task}
+            isEditing={isTitleEditing}
+            onEditingChange={setIsTitleEditing}
+          />
+
           <DropdownMenu
             disabled={isSelectMode}
             triggerContent={<Icon name="icon-three-dots" />}

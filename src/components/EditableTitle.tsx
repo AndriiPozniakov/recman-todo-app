@@ -21,6 +21,8 @@ interface EditableTitleProps<T extends ElementType>
 
   isEditing?: boolean
   onEditingChange?: (value: boolean) => void
+
+  allowInternalStateChange?: boolean
 }
 
 const contentClassName = cva({
@@ -42,8 +44,12 @@ const contentClassName = cva({
 })
 
 const buttonClassName = cva({
-  base: 'flex size-full items-center justify-start gap-2 text-nowrap rounded border border-transparent px-4 duration-300 ease-in-out group-hover:border-grey-600',
+  base: 'flex size-full items-center justify-start gap-2 text-nowrap rounded border border-transparent px-4 duration-300 ease-in-out',
   variants: {
+    allowInternalStateChange: {
+      true: 'group-hover:border-grey-600',
+      false: 'cursor-default',
+    },
     paddingRight: { lg: 'pr-12', md: 'pr-4', sm: 'pr-2', xs: 'pr-1' },
     paddingLeft: { lg: 'pl-12', md: 'pl-4', sm: 'pl-2', xs: 'pl-1' },
   },
@@ -66,6 +72,7 @@ export const EditableTitle = <T extends ElementType = 'h2'>(
     textClassName,
     isEditing: propIsEditing,
     onEditingChange,
+    allowInternalStateChange = true,
     ...rest
   } = props
 
@@ -79,6 +86,7 @@ export const EditableTitle = <T extends ElementType = 'h2'>(
   })
 
   const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
+    // if (allowInternalStateChange)
     setIsEditing(false)
     onBlur?.(e)
   }
@@ -111,8 +119,14 @@ export const EditableTitle = <T extends ElementType = 'h2'>(
         aria-label={title}
         aria-controls={inputId}
         aria-expanded={isEditing}
-        onClick={() => setIsEditing(true)}
-        className={buttonClassName({ paddingRight, paddingLeft })}
+        onClick={() => {
+          if (allowInternalStateChange) setIsEditing(true)
+        }}
+        className={buttonClassName({
+          paddingRight,
+          paddingLeft,
+          allowInternalStateChange,
+        })}
       >
         {slotLeftButton}
         <span className={cx('truncate', textClassName)}>{value}</span>
