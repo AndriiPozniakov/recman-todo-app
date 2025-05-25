@@ -1,3 +1,5 @@
+import type { TSelectedTask } from '@/types/selectedTask.ts'
+
 import { useAppStore } from '@/store/useAppStore'
 
 export const useTaskStore = () => {
@@ -21,11 +23,18 @@ export const useTaskStore = () => {
     addTaskToColumn(columnId, newTaskId)
   }
 
+  const handleRemoveBulkTasks = (tasksToRemove: TSelectedTask[]) => {
+    tasksToRemove.forEach(({ columnId, taskId }) => {
+      handleRemoveTask(columnId, taskId)
+    })
+  }
+
   return {
     tasks,
     addTask: handleAddNewTask,
     removeTask,
     removeTaskFromColumn: handleRemoveTask,
+    removeBulkTasks: handleRemoveBulkTasks,
     toggleComplete,
     renameTask,
   }

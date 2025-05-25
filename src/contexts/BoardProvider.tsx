@@ -1,10 +1,12 @@
 import { type PropsWithChildren, useCallback, useMemo, useState } from 'react'
 
+import type { TSelectedTask } from '@/types/selectedTask'
+
 import { BoardContext } from './BoardContext'
 
 export const BoardProvider = ({ children }: PropsWithChildren) => {
   const [isSelectMode, setIsSelectMode] = useState(false)
-  const [selectedTaskIds, setSelectedTaskIds] = useState<string[]>([])
+  const [selectedTasks, setSelectedTasks] = useState<TSelectedTask[]>([])
   const [createNewTaskColumnId, setCreateNewTaskColumnId] = useState<
     string | null
   >(null)
@@ -12,47 +14,52 @@ export const BoardProvider = ({ children }: PropsWithChildren) => {
   const handleToggleSelectMode = useCallback(() => {
     setIsSelectMode((prev) => {
       const next = !prev
-      if (!next) setSelectedTaskIds([])
+      if (!next) setSelectedTasks([])
       return next
     })
   }, [])
 
-  const selectTask = useCallback((id: string) => {
-    setSelectedTaskIds((prev) => [...prev, id])
+  const selectTask = useCallback((task: TSelectedTask) => {
+    setSelectedTasks((prev) => {
+      if (prev.some((t) => t.taskId === task.taskId)) return prev
+      return [...prev, task]
+    })
   }, [])
 
   const selectBulkTasks = useCallback(
-    (ids: string[]) => {
+    (tasks: TSelectedTask[]) => {
       if (!isSelectMode) setIsSelectMode(true)
 
-      setSelectedTaskIds((prev) => [...prev, ...ids])
+      setSelectedTasks((prev) => {
+        const newTasks = tasks.filter(
+          (task) => !prev.some((t) => t.taskId === task.taskId),
+        )
+        return [...prev, ...newTasks]
+      })
     },
     [isSelectMode],
   )
 
-  const unselectBulkTasks = useCallback((ids: string[]) => {
-    setSelectedTaskIds((prev) => {
-      const newSelected = prev.filter((taskId) => !ids.includes(taskId))
+  const unselectTask = useCallback((taskId: string) => {
+    setSelectedTasks((prev) => prev.filter((t) => t.taskId !== taskId))
+  }, [])
 
-      if (newSelected.length === 0) {
-        setIsSelectMode(false)
-      }
-
-      return newSelected
+  const unselectBulkTasks = useCallback((taskIds: string[]) => {
+    setSelectedTasks((prev) => {
+      const filtered = prev.filter((t) => !taskIds.includes(t.taskId))
+      if (filtered.length === 0) setIsSelectMode(false)
+      return filtered
     })
   }, [])
 
-  const unselectTask = useCallback((id: string) => {
-    setSelectedTaskIds((prev) => prev.filter((taskId) => taskId !== id))
-  }, [])
-
   const clearSelectedTasks = useCallback(() => {
-    setSelectedTaskIds([])
+    setIsSelectMode(false)
+    setSelectedTasks([])
   }, [])
 
   const isTaskSelected = useCallback(
-    (id: string) => selectedTaskIds.includes(id),
-    [selectedTaskIds],
+    (taskId: string) => selectedTasks.some((t) => t.taskId === taskId),
+    [selectedTasks],
   )
 
   const createNewTask = useCallback((columnId: string) => {
@@ -67,7 +74,7 @@ export const BoardProvider = ({ children }: PropsWithChildren) => {
     () => ({
       isSelectMode,
       toggleSelectMode: handleToggleSelectMode,
-      selectedTaskIds,
+      selectedTasks,
       selectTask,
       unselectTask,
       unselectBulkTasks,
@@ -81,7 +88,7 @@ export const BoardProvider = ({ children }: PropsWithChildren) => {
     [
       isSelectMode,
       handleToggleSelectMode,
-      selectedTaskIds,
+      selectedTasks,
       selectTask,
       unselectTask,
       unselectBulkTasks,

@@ -84,7 +84,14 @@ export const EditableColumnTitle = (props: EditColumnTitleProps) => {
         setIsEditing(true)
         break
       case 'select-all-tasks':
-        selectBulkTasks(column.taskIds)
+        selectBulkTasks(
+          column.taskIds.map((taskId) => {
+            return {
+              columnId: column.id,
+              taskId,
+            }
+          }),
+        )
         break
       case 'unselect-all-tasks':
         unselectBulkTasks(column.taskIds)

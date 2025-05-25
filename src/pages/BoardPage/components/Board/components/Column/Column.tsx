@@ -11,19 +11,26 @@ import {
   draggable,
   dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
+import { centerUnderPointer } from '@atlaskit/pragmatic-drag-and-drop/element/center-under-pointer'
+import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
 
-import { useFuseSearch } from '@hooks/useFuseSearch.ts'
+import { useFuseSearch } from '@hooks/useFuseSearch'
 import { cx } from 'cva'
+import { isIOS } from 'react-device-detect'
+import { createPortal } from 'react-dom'
 
 import { getColumnData } from '@/utils/getColumnData'
 
+import type { TPreviewState } from '@/types/previewState'
+
 import { useBoardContext } from '@/contexts/useBoardContext'
-import { useFiltersContext } from '@/contexts/useFiltersContext.ts'
+import { useFiltersContext } from '@/contexts/useFiltersContext'
 import { isDraggingAColumn, type TColumnWithTasks } from '@/types'
 
 import { ColumnEndDropZone } from './components/ColumnEndDropZone'
 import { CreateNewTask } from './components/CreateNewTask'
 import { EditableColumnTitle } from './components/EditableColumnTitle'
+import { IOSColumnPreview } from './components/IOSColumnPreview'
 import { TaskCard } from './components/TaskCard'
 
 interface ColumnProps {
@@ -39,6 +46,7 @@ export const Column = (props: ColumnProps) => {
   const { statusFilter, globalSearchQuery } = useFiltersContext()
 
   const [isDragging, setIsDragging] = useState(false)
+  const [previewState, setPreviewState] = useState<TPreviewState | null>(null)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
 
   const data = getColumnData(column)
@@ -73,6 +81,25 @@ export const Column = (props: ColumnProps) => {
         },
         onDrop() {
           setIsDragging(false)
+          setPreviewState(null)
+        },
+        onGenerateDragPreview: ({ nativeSetDragImage }) => {
+          if (!isIOS) {
+            setPreviewState({ type: 'default' })
+            return
+          }
+
+          setCustomNativeDragPreview({
+            getOffset: centerUnderPointer,
+            render: ({ container }) => {
+              setPreviewState({
+                type: 'ios',
+                container,
+              })
+              return () => setPreviewState(null)
+            },
+            nativeSetDragImage,
+          })
         },
       }),
       dropTargetForElements({
@@ -104,7 +131,12 @@ export const Column = (props: ColumnProps) => {
   }, [data])
 
   return (
-    <div ref={columnRef} className="relative flex w-72 shrink-0 px-2">
+    <div
+      ref={columnRef}
+      className={cx('relative flex w-72 shrink-0 px-2', {
+        isolate: previewState?.type === 'default',
+      })}
+    >
       <div
         className={cx(
           'flex w-full flex-grow flex-col duration-300 ease-in-out',
@@ -132,6 +164,12 @@ export const Column = (props: ColumnProps) => {
       </div>
 
       {closestEdge && <DropIndicator edge={closestEdge} gap="0px" />}
+      {previewState?.type === 'ios'
+        ? createPortal(
+            <IOSColumnPreview title={column.title} />,
+            previewState.container,
+          )
+        : null}
     </div>
   )
 }

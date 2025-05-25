@@ -11,13 +11,18 @@ import {
   draggable,
   dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
+import { centerUnderPointer } from '@atlaskit/pragmatic-drag-and-drop/element/center-under-pointer'
+import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'
 
 import { useTaskStore } from '@hooks/useTaskStore'
 import { cva, cx } from 'cva'
+import { isIOS } from 'react-device-detect'
+import { createPortal } from 'react-dom'
 
 import { getTaskData } from '@/utils/getTaskData'
 
 import type { TDropdownItem } from '@/types/dropdownItem.ts'
+import type { TPreviewState } from '@/types/previewState.ts'
 
 import { useBoardContext } from '@/contexts/useBoardContext'
 import { isDraggingATask, type TTask } from '@/types'
@@ -26,6 +31,7 @@ import { DropdownMenu } from '@components/DropdownMenu'
 import { Icon } from '@components/Icon'
 
 import { EditableTaskTitle } from './components/EditableTaskTitle'
+import { IOSTaskPreview } from './components/IOSTaskPreview'
 
 const taskCardClassName = cva({
   base: 'grid w-full rounded border border-grey-500 bg-white px-4 pb-4 pt-2 text-start duration-300 ease-in-out',
@@ -43,6 +49,9 @@ const taskCardClassName = cva({
     },
     isSelectMode: {
       true: 'hocus:border-blue-200',
+    },
+    isGeneratePreview: {
+      true: 'isolate',
     },
   },
   compoundVariants: [
@@ -71,6 +80,7 @@ export const TaskCard = (props: TaskCardProps) => {
     useBoardContext()
 
   const [isDragging, setIsDragging] = useState(false)
+  const [previewState, setPreviewState] = useState<TPreviewState | null>(null)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
   const ref = useRef<HTMLElement>(null)
 
@@ -95,6 +105,25 @@ export const TaskCard = (props: TaskCardProps) => {
         },
         onDrop() {
           setIsDragging(false)
+          setPreviewState(null)
+        },
+        onGenerateDragPreview: ({ nativeSetDragImage }) => {
+          if (!isIOS) {
+            setPreviewState({ type: 'default' })
+            return
+          }
+
+          setCustomNativeDragPreview({
+            getOffset: centerUnderPointer,
+            render: ({ container }) => {
+              setPreviewState({
+                type: 'ios',
+                container,
+              })
+              return () => setPreviewState(null)
+            },
+            nativeSetDragImage,
+          })
         },
       }),
       dropTargetForElements({
@@ -145,7 +174,9 @@ export const TaskCard = (props: TaskCardProps) => {
   const componentProps = isSelectMode
     ? {
         onClick: () =>
-          isSelected ? unselectTask(task.id) : selectTask(task.id),
+          isSelected
+            ? unselectTask(task.id)
+            : selectTask({ columnId, taskId: task.id }),
         'aria-checked': isSelected,
         role: 'checkbox',
       }
@@ -177,6 +208,7 @@ export const TaskCard = (props: TaskCardProps) => {
           isCompleted,
           isSelectMode,
           isSelected,
+          isGeneratePreview: previewState?.type === 'default',
         })}
         {...componentProps}
       >
@@ -207,6 +239,9 @@ export const TaskCard = (props: TaskCardProps) => {
         </div>
       </Component>
       {closestEdge && <DropIndicator edge={closestEdge} gap="16px" />}
+      {previewState?.type === 'ios'
+        ? createPortal(<IOSTaskPreview task={task} />, previewState.container)
+        : null}
     </div>
   )
 }
