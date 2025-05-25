@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   attachClosestEdge,
@@ -18,7 +18,7 @@ import { cx } from 'cva'
 import { getColumnData } from '@/utils/getColumnData'
 
 import { useBoardContext } from '@/contexts/useBoardContext'
-import { useSearchContext } from '@/contexts/useSearchContext'
+import { useFiltersContext } from '@/contexts/useFiltersContext.ts'
 import { isDraggingAColumn, type TColumnWithTasks } from '@/types'
 
 import { ColumnEndDropZone } from './components/ColumnEndDropZone'
@@ -36,18 +36,26 @@ export const Column = (props: ColumnProps) => {
   const headerRef = useRef<HTMLDivElement | null>(null)
 
   const { createNewTaskColumnId } = useBoardContext()
-  const { globalSearchQuery } = useSearchContext()
+  const { statusFilter, globalSearchQuery } = useFiltersContext()
 
   const [isDragging, setIsDragging] = useState(false)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
 
   const data = getColumnData(column)
 
-  const filteredTask = useFuseSearch({
+  const filteredTaksBySearch = useFuseSearch({
     list: column.tasks,
     search: globalSearchQuery,
     keys: ['title'],
   })
+
+  const filteredTasksByStatus = useMemo(() => {
+    return filteredTaksBySearch.filter((task) => {
+      if (statusFilter === 'all') return true
+      if (statusFilter === 'completed') return task.isCompleted
+      if (statusFilter === 'incomplete') return !task.isCompleted
+    })
+  }, [filteredTaksBySearch, statusFilter])
 
   useEffect(() => {
     const header = headerRef.current
@@ -112,13 +120,13 @@ export const Column = (props: ColumnProps) => {
             <CreateNewTask columnId={column.id} />
           )}
 
-          {filteredTask.map((task) => (
+          {filteredTasksByStatus.map((task) => (
             <TaskCard key={task.id} columnId={column.id} task={task} />
           ))}
 
           <ColumnEndDropZone
             columnId={column.id}
-            intent={filteredTask.length ? 'transparent' : 'grey-400'}
+            intent={filteredTasksByStatus.length ? 'transparent' : 'grey-400'}
           />
         </div>
       </div>

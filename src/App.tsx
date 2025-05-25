@@ -1,14 +1,14 @@
 import { Footer } from '@layoutComponents/Footer'
 import { Header } from '@layoutComponents/Header'
-import { IconSprite } from '@layoutComponents/IconSprite.tsx'
+import { IconSprite } from '@layoutComponents/IconSprite'
 import { Sidebar } from '@layoutComponents/Sidebar'
 
-import { SearchProvider } from '@/contexts/SearchProvider'
+import { FiltersProvider } from '@/contexts/FiltersProvider'
 import { BoardPage } from '@/pages/BoardPage'
 
 function App() {
   return (
-    <SearchProvider>
+    <FiltersProvider>
       <div className="flex h-screen flex-col bg-white text-slate-800">
         <Header />
 
@@ -24,7 +24,7 @@ function App() {
       </div>
 
       <IconSprite />
-    </SearchProvider>
+    </FiltersProvider>
   )
 }
 

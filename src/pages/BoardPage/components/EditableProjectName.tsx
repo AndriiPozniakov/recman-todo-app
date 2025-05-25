@@ -7,6 +7,8 @@ import { Button } from '@components/Button.tsx'
 import { EditableTitle } from '@components/EditableTitle'
 import { Icon } from '@components/Icon'
 
+import { AppOptions } from './AppOptions.tsx'
+
 export const EditableProjectName = () => {
   const { projectTitle, setProjectTitle } = useProjectStore()
   const { value, setValue, onChange } = useInput(projectTitle)
@@ -43,14 +45,18 @@ export const EditableProjectName = () => {
         />
       </div>
 
-      <Button
-        intent="neutral"
-        size="md"
-        onClick={toggleSelectMode}
-        className="min-w-20"
-      >
-        {isSelectMode ? 'Cancel' : 'Select'}
-      </Button>
+      <div className="flex items-center gap-2">
+        <AppOptions />
+
+        <Button
+          intent="neutral"
+          size="sm"
+          onClick={toggleSelectMode}
+          className="min-w-20"
+        >
+          {isSelectMode ? 'Cancel' : 'Select'}
+        </Button>
+      </div>
     </div>
   )
 }

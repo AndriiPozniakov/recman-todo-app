@@ -1,7 +1,7 @@
 import { useInput } from '@hooks/useInput.ts'
 import { useTaskStore } from '@hooks/useTaskStore.ts'
 
-import { useSearchContext } from '@/contexts/useSearchContext.ts'
+import { useFiltersContext } from '@/contexts/useFiltersContext.ts'
 import type { TTask } from '@/types'
 
 import { EditableTitle } from '@components/EditableTitle.tsx'
@@ -18,7 +18,7 @@ export const EditableTaskTitle = (props: EditableTaskTitleProps) => {
   const { value, onChange } = useInput(task.title)
 
   const { renameTask } = useTaskStore()
-  const { globalSearchQuery } = useSearchContext()
+  const { globalSearchQuery } = useFiltersContext()
 
   const handleOnBlur = () => {
     if (value.trim() !== '') {
