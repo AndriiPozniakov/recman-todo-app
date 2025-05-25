@@ -1,5 +1,4 @@
-import { Icon } from '@components/Icon'
-import { Input } from '@components/Input'
+import { GlobalSearch } from '@components/GlobalSearch'
 
 export const Header = () => {
   return (
@@ -12,11 +11,7 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center px-4 md:px-8">
-        <Input
-          placeholder="Search..."
-          slotRight={<Icon name="icon-magnifying-glass" />}
-          className="w-full lg:max-w-80"
-        />
+        <GlobalSearch />
       </div>
     </header>
   )

@@ -40,7 +40,7 @@ const inputClassName = cva({
     // isSlotLeft: false,
     paddingLeft: 'md',
     paddingRight: 'md',
-    fontSize: 'sm',
+    fontSize: 'md',
   },
 })
 

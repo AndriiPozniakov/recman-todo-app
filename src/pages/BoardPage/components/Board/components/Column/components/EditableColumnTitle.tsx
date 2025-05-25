@@ -4,14 +4,14 @@ import { useColumnsStore } from '@hooks/useColumnsStore'
 import { useInput } from '@hooks/useInput'
 import { cx } from 'cva'
 
-import type { TDropdownItem } from '@/types/dropdownItem.ts'
+import type { TDropdownItem } from '@/types/dropdownItem'
 
-import { useBoardContext } from '@/contexts/useBoardContext.ts'
+import { useBoardContext } from '@/contexts/useBoardContext'
 import type { TColumnWithTasks } from '@/types'
 
-import { DropdownMenu } from '@components/DropdownMenu.tsx'
+import { DropdownMenu } from '@components/DropdownMenu'
 import { EditableTitle } from '@components/EditableTitle'
-import { Icon } from '@components/Icon.tsx'
+import { Icon } from '@components/Icon'
 
 interface EditColumnTitleProps extends ComponentProps<'div'> {
   column: TColumnWithTasks

@@ -3,11 +3,12 @@ import { Header } from '@layoutComponents/Header'
 import { IconSprite } from '@layoutComponents/IconSprite.tsx'
 import { Sidebar } from '@layoutComponents/Sidebar'
 
+import { SearchProvider } from '@/contexts/SearchProvider'
 import { BoardPage } from '@/pages/BoardPage'
 
 function App() {
   return (
-    <>
+    <SearchProvider>
       <div className="flex h-screen flex-col bg-white text-slate-800">
         <Header />
 
@@ -23,7 +24,7 @@ function App() {
       </div>
 
       <IconSprite />
-    </>
+    </SearchProvider>
   )
 }
 

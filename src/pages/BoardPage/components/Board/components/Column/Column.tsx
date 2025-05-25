@@ -12,11 +12,13 @@ import {
   dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 
+import { useFuseSearch } from '@hooks/useFuseSearch.ts'
 import { cx } from 'cva'
 
 import { getColumnData } from '@/utils/getColumnData'
 
 import { useBoardContext } from '@/contexts/useBoardContext'
+import { useSearchContext } from '@/contexts/useSearchContext'
 import { isDraggingAColumn, type TColumnWithTasks } from '@/types'
 
 import { ColumnEndDropZone } from './components/ColumnEndDropZone'
@@ -34,11 +36,18 @@ export const Column = (props: ColumnProps) => {
   const headerRef = useRef<HTMLDivElement | null>(null)
 
   const { createNewTaskColumnId } = useBoardContext()
+  const { globalSearchQuery } = useSearchContext()
 
   const [isDragging, setIsDragging] = useState(false)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
 
   const data = getColumnData(column)
+
+  const filteredTask = useFuseSearch({
+    list: column.tasks,
+    search: globalSearchQuery,
+    keys: ['title'],
+  })
 
   useEffect(() => {
     const header = headerRef.current
@@ -103,13 +112,13 @@ export const Column = (props: ColumnProps) => {
             <CreateNewTask columnId={column.id} />
           )}
 
-          {column.tasks.map((task) => (
+          {filteredTask.map((task) => (
             <TaskCard key={task.id} columnId={column.id} task={task} />
           ))}
 
           <ColumnEndDropZone
             columnId={column.id}
-            intent={column.tasks.length ? 'transparent' : 'grey-400'}
+            intent={filteredTask.length ? 'transparent' : 'grey-400'}
           />
         </div>
       </div>

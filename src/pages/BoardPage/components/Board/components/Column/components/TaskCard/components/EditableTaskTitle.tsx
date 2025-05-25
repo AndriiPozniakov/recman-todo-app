@@ -1,9 +1,11 @@
 import { useInput } from '@hooks/useInput.ts'
 import { useTaskStore } from '@hooks/useTaskStore.ts'
 
+import { useSearchContext } from '@/contexts/useSearchContext.ts'
 import type { TTask } from '@/types'
 
 import { EditableTitle } from '@components/EditableTitle.tsx'
+import { Highlight } from '@components/Highlight.tsx'
 
 interface EditableTaskTitleProps {
   task: TTask
@@ -16,6 +18,7 @@ export const EditableTaskTitle = (props: EditableTaskTitleProps) => {
   const { value, onChange } = useInput(task.title)
 
   const { renameTask } = useTaskStore()
+  const { globalSearchQuery } = useSearchContext()
 
   const handleOnBlur = () => {
     if (value.trim() !== '') {
@@ -23,7 +26,7 @@ export const EditableTaskTitle = (props: EditableTaskTitleProps) => {
     }
   }
 
-  return (
+  return isEditing ? (
     <EditableTitle
       as="h3"
       weight="medium"
@@ -35,7 +38,10 @@ export const EditableTaskTitle = (props: EditableTaskTitleProps) => {
       onChange={onChange}
       value={value}
       onBlur={handleOnBlur}
-      allowInternalStateChange={false}
     />
+  ) : (
+    <h3 className="truncate px-[5px] py-3 font-medium">
+      <Highlight text={value} query={globalSearchQuery} />
+    </h3>
   )
 }
