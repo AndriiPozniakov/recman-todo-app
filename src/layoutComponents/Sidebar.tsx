@@ -1,6 +1,6 @@
 import { cx } from 'cva'
 
-import { Icon } from '@components/Icon.tsx'
+import { Icon } from '@components/Icon'
 
 const NAVIGATION = [
   { title: 'Dashboard', icon: 'icon-house' },

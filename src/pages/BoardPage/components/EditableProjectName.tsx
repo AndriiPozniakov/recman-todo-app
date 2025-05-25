@@ -1,13 +1,13 @@
 import { useInput } from '@hooks/useInput'
 import { useProjectStore } from '@hooks/useProjectStore'
 
-import { useBoardContext } from '@/contexts/useBoardContext.ts'
+import { useBoardContext } from '@/contexts/useBoardContext'
 
-import { Button } from '@components/Button.tsx'
+import { Button } from '@components/Button'
 import { EditableTitle } from '@components/EditableTitle'
 import { Icon } from '@components/Icon'
 
-import { AppOptions } from './AppOptions.tsx'
+import { AppOptions } from './AppOptions'
 
 export const EditableProjectName = () => {
   const { projectTitle, setProjectTitle } = useProjectStore()

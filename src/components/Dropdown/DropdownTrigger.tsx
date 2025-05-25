@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from 'react'
 
-import { useDropdownContext } from './DropdownContext.ts'
+import { useDropdownContext } from './DropdownContext'
 
 interface DropdownTriggerProps extends ComponentProps<'button'> {
   children?: ReactNode

@@ -1,1 +1,1 @@
-export { Column } from './Column.tsx'
+export { Column } from './Column'

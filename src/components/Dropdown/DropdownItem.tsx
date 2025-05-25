@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { useDropdownContext } from '@components/Dropdown/DropdownContext.ts'
+import { useDropdownContext } from '@components/Dropdown/DropdownContext'
 
 interface DropdownItemProps {
   index: number

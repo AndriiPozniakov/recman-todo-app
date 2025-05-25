@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
-import { useInput } from '@hooks/useInput.ts'
-import { useTaskStore } from '@hooks/useTaskStore.ts'
+import { useInput } from '@hooks/useInput'
+import { useTaskStore } from '@hooks/useTaskStore'
 
 import { useBoardContext } from '@/contexts/useBoardContext'
 

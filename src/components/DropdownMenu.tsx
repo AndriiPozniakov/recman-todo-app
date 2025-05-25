@@ -2,7 +2,7 @@ import { type ReactNode, useState } from 'react'
 
 import { cx } from 'cva'
 
-import type { TDropdownItem, TDropdownItemEntry } from '@/types/dropdownItem.ts'
+import type { TDropdownItem, TDropdownItemEntry } from '@/types/dropdownItem'
 
 import {
   Dropdown,
@@ -10,7 +10,7 @@ import {
   DropdownItem,
   DropdownTrigger,
 } from '@components/Dropdown'
-import { Icon } from '@components/Icon.tsx'
+import { Icon } from '@components/Icon'
 
 interface DropdownMenuProps {
   triggerContent: ReactNode

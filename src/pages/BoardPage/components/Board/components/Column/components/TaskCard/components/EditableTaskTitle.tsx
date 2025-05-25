@@ -1,11 +1,11 @@
-import { useInput } from '@hooks/useInput.ts'
-import { useTaskStore } from '@hooks/useTaskStore.ts'
+import { useInput } from '@hooks/useInput'
+import { useTaskStore } from '@hooks/useTaskStore'
 
-import { useFiltersContext } from '@/contexts/useFiltersContext.ts'
+import { useFiltersContext } from '@/contexts/useFiltersContext'
 import type { TTask } from '@/types'
 
-import { EditableTitle } from '@components/EditableTitle.tsx'
-import { Highlight } from '@components/Highlight.tsx'
+import { EditableTitle } from '@components/EditableTitle'
+import { Highlight } from '@components/Highlight'
 
 interface EditableTaskTitleProps {
   task: TTask

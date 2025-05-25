@@ -21,8 +21,8 @@ import { createPortal } from 'react-dom'
 
 import { getTaskData } from '@/utils/getTaskData'
 
-import type { TDropdownItem } from '@/types/dropdownItem.ts'
-import type { TPreviewState } from '@/types/previewState.ts'
+import type { TDropdownItem } from '@/types/dropdownItem'
+import type { TPreviewState } from '@/types/previewState'
 
 import { useBoardContext } from '@/contexts/useBoardContext'
 import { isDraggingATask, type TTask } from '@/types'
@@ -34,7 +34,7 @@ import { EditableTaskTitle } from './components/EditableTaskTitle'
 import { IOSTaskPreview } from './components/IOSTaskPreview'
 
 const taskCardClassName = cva({
-  base: 'grid w-full rounded border border-grey-500 bg-white px-4 pb-4 pt-2 text-start duration-300 ease-in-out',
+  base: 'grid w-full cursor-pointer rounded border border-grey-500 bg-white px-4 pb-4 pt-2 text-start duration-300 ease-in-out hocus:border-blue-200',
   variants: {
     isDragging: {
       true: 'opacity-50',
@@ -47,9 +47,6 @@ const taskCardClassName = cva({
     isSelected: {
       true: '!border-blue-200 !bg-blue-50',
     },
-    isSelectMode: {
-      true: 'hocus:border-blue-200',
-    },
     isGeneratePreview: {
       true: 'isolate',
     },
@@ -61,7 +58,6 @@ const taskCardClassName = cva({
     isDragging: false,
     isCompleted: false,
     isSelected: false,
-    isSelectMode: false,
   },
 })
 
@@ -206,7 +202,6 @@ export const TaskCard = (props: TaskCardProps) => {
         className={taskCardClassName({
           isDragging,
           isCompleted,
-          isSelectMode,
           isSelected,
           isGeneratePreview: previewState?.type === 'default',
         })}

@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 import { cva, cx } from 'cva'
 
-import { Icon } from '@components/Icon.tsx'
+import { Icon } from '@components/Icon'
 
 interface CheckboxProps
   extends Omit<ComponentProps<'input'>, 'checked' | 'onChange'> {

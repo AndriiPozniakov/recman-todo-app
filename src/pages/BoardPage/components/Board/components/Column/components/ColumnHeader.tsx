@@ -13,7 +13,7 @@ import { DropdownMenu } from '@components/DropdownMenu'
 import { EditableTitle } from '@components/EditableTitle'
 import { Icon } from '@components/Icon'
 
-interface EditColumnTitleProps extends ComponentProps<'div'> {
+interface ColumnHeaderProps extends ComponentProps<'div'> {
   column: TColumnWithTasks
 }
 
@@ -54,7 +54,7 @@ const MENU_ITEMS_NO_TASKS: TDropdownItem[] = [
   },
 ]
 
-export const EditableColumnTitle = (props: EditColumnTitleProps) => {
+export const ColumnHeader = (props: ColumnHeaderProps) => {
   const { ref, column, className, ...rest } = props
   const { renameColumn, removeColumnAndMoveTasks, removeColumnWithTasks } =
     useColumnsStore()
@@ -114,7 +114,7 @@ export const EditableColumnTitle = (props: EditColumnTitleProps) => {
       {...rest}
       ref={ref}
       className={cx(
-        'flex h-12 shrink-0 items-center justify-between gap-2 rounded border border-grey-500 bg-grey-400 pr-4',
+        'hocus:bg- flex h-12 shrink-0 cursor-pointer items-center justify-between gap-2 rounded border border-grey-500 bg-grey-400 pr-4 duration-300 ease-in-out hocus:bg-grey-500',
         className,
       )}
     >

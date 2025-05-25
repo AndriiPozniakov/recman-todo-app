@@ -1,4 +1,4 @@
-import { BoardProvider } from '@/contexts/BoardProvider.tsx'
+import { BoardProvider } from '@/contexts/BoardProvider'
 
 import { Board } from './components/Board'
 import { EditableProjectName } from './components/EditableProjectName'

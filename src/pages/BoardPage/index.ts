@@ -1,1 +1,1 @@
-export { BoardPage } from './BoardPage.tsx'
+export { BoardPage } from './BoardPage'

@@ -1,4 +1,4 @@
-import type { TSelectedTask } from '@/types/selectedTask.ts'
+import type { TSelectedTask } from '@/types/selectedTask'
 
 import { useAppStore } from '@/store/useAppStore'
 

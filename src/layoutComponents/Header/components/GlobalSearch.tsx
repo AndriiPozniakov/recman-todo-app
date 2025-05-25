@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react'
 
-import { useFiltersContext } from '@/contexts/useFiltersContext.ts'
+import { useFiltersContext } from '@/contexts/useFiltersContext'
 
 import { Icon } from '@components/Icon'
 import { Input } from '@components/Input'

@@ -28,8 +28,8 @@ import { useFiltersContext } from '@/contexts/useFiltersContext'
 import { isDraggingAColumn, type TColumnWithTasks } from '@/types'
 
 import { ColumnEndDropZone } from './components/ColumnEndDropZone'
+import { ColumnHeader } from './components/ColumnHeader'
 import { CreateNewTask } from './components/CreateNewTask'
-import { EditableColumnTitle } from './components/EditableColumnTitle'
 import { IOSColumnPreview } from './components/IOSColumnPreview'
 import { TaskCard } from './components/TaskCard'
 
@@ -145,7 +145,7 @@ export const Column = (props: ColumnProps) => {
           },
         )}
       >
-        <EditableColumnTitle ref={headerRef} column={column} />
+        <ColumnHeader ref={headerRef} column={column} />
 
         <div className="-mx-2 flex h-full flex-col gap-4 overflow-auto px-2 pb-8 pt-4">
           {createNewTaskColumnId && column.id === createNewTaskColumnId && (

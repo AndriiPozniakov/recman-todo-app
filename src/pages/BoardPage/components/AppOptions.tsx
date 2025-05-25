@@ -1,10 +1,10 @@
-import { useColumnsStore } from '@hooks/useColumnsStore.ts'
-import { useTaskStore } from '@hooks/useTaskStore.ts'
+import { useColumnsStore } from '@hooks/useColumnsStore'
+import { useTaskStore } from '@hooks/useTaskStore'
 
-import type { TDropdownItem } from '@/types/dropdownItem.ts'
+import type { TDropdownItem } from '@/types/dropdownItem'
 
-import { useBoardContext } from '@/contexts/useBoardContext.ts'
-import { useFiltersContext } from '@/contexts/useFiltersContext.ts'
+import { useBoardContext } from '@/contexts/useBoardContext'
+import { useFiltersContext } from '@/contexts/useFiltersContext'
 
 import { DropdownMenu } from '@components/DropdownMenu'
 import { Icon } from '@components/Icon'

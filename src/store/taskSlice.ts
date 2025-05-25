@@ -1,7 +1,7 @@
 import { type StateCreator } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
-import { safeUUID } from '@/utils/safeUUID.ts'
+import { safeUUID } from '@/utils/safeUUID'
 
 import type { TTask } from '@/types'
 

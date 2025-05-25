@@ -8,7 +8,7 @@ import {
   useRef,
 } from 'react'
 
-import { useControllableState } from '@hooks/useControllableState.ts'
+import { useControllableState } from '@hooks/useControllableState'
 import { cva, cx } from 'cva'
 
 import { Input } from './Input'
