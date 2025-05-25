@@ -6,6 +6,7 @@ import { cx } from 'cva'
 
 import type { TDropdownItem } from '@/types/dropdownItem.ts'
 
+import { useBoardContext } from '@/contexts/useBoardContext.ts'
 import type { TColumnWithTasks } from '@/types'
 
 import { DropdownMenu } from '@components/DropdownMenu.tsx'
@@ -18,11 +19,21 @@ interface EditColumnTitleProps extends ComponentProps<'div'> {
 
 const MENU_ITEMS_BASE: TDropdownItem[] = [
   { eventKey: 'rename', title: 'Rename section', iconName: 'icon-pen' },
-  { type: 'divider' },
 ]
 
 const MENU_ITEMS_HAS_TASKS: TDropdownItem[] = [
   ...MENU_ITEMS_BASE,
+  {
+    eventKey: 'select-all-tasks',
+    title: 'Select all tasks',
+    iconName: 'icon-check',
+  },
+  {
+    eventKey: 'unselect-all-tasks',
+    title: 'Unselect all tasks',
+    iconName: 'icon-xmark',
+  },
+  { type: 'divider' },
   {
     eventKey: 'delete-with-tasks',
     title: 'Delete section with tasks',
@@ -35,6 +46,7 @@ const MENU_ITEMS_HAS_TASKS: TDropdownItem[] = [
 
 const MENU_ITEMS_NO_TASKS: TDropdownItem[] = [
   ...MENU_ITEMS_BASE,
+  { type: 'divider' },
   {
     eventKey: 'delete-with-tasks',
     title: 'Delete section',
@@ -45,6 +57,8 @@ export const EditableColumnTitle = (props: EditColumnTitleProps) => {
   const { ref, column, className, ...rest } = props
   const { renameColumn, removeColumnAndMoveTasks, removeColumnWithTasks } =
     useColumnsStore()
+
+  const { selectBulkTasks, unselectBulkTasks } = useBoardContext()
 
   const { value, setValue, onChange } = useInput(column.title)
   const [isEditing, setIsEditing] = useState(false)
@@ -63,6 +77,12 @@ export const EditableColumnTitle = (props: EditColumnTitleProps) => {
     switch (eventKey) {
       case 'rename':
         setIsEditing(true)
+        break
+      case 'select-all-tasks':
+        selectBulkTasks(column.taskIds)
+        break
+      case 'unselect-all-tasks':
+        unselectBulkTasks(column.taskIds)
         break
       case 'delete-with-tasks':
         removeColumnWithTasks(column.id)

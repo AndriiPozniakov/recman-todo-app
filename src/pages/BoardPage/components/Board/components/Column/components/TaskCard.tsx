@@ -34,7 +34,7 @@ const taskCardClassName = cva({
       true: 'opacity-50',
       false: '',
     },
-    isChecked: {
+    isSelected: {
       true: '!border-blue-200 !bg-blue-50',
     },
     isSelectMode: {
@@ -47,7 +47,7 @@ const taskCardClassName = cva({
   defaultVariants: {
     isDragging: false,
     isCompleted: false,
-    isChecked: false,
+    isSelected: false,
     isSelectMode: false,
   },
 })
@@ -62,9 +62,9 @@ export const TaskCard = (props: TaskCardProps) => {
   const { isCompleted } = task
 
   const { toggleComplete } = useTaskStore()
-  const { isSelectMode } = useBoardContext()
+  const { selectTask, unselectTask, isTaskSelected, isSelectMode } =
+    useBoardContext()
 
-  const [checked, setIsChecked] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null)
   const ref = useRef<HTMLElement>(null)
@@ -128,11 +128,14 @@ export const TaskCard = (props: TaskCardProps) => {
     }
   }
 
+  const isSelected = isTaskSelected(task.id)
+
   const Component = isSelectMode ? 'button' : 'div'
   const componentProps = isSelectMode
     ? {
-        onClick: () => setIsChecked((prev) => !prev),
-        'aria-checked': checked,
+        onClick: () =>
+          isSelected ? unselectTask(task.id) : selectTask(task.id),
+        'aria-checked': isSelected,
         role: 'checkbox',
       }
     : {}
@@ -145,7 +148,7 @@ export const TaskCard = (props: TaskCardProps) => {
           isDragging,
           isCompleted,
           isSelectMode,
-          isChecked: checked,
+          isSelected,
         })}
         {...componentProps}
       >

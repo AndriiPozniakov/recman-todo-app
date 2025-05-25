@@ -1,14 +1,25 @@
 import { createContext } from 'react'
 
 interface BoardContextType {
-  // selectedTaskIds: string[]
   isSelectMode: boolean
-  // setSelectedTaskIds?: (ids: string[]) => void
+  selectedTaskIds: Array<string>
   toggleSelectMode: () => void
+  selectTask: (id: string) => void
+  selectBulkTasks: (ids: string[]) => void
+  unselectBulkTasks: (ids: string[]) => void
+  unselectTask: (id: string) => void
+  clearSelectedTasks: () => void
+  isTaskSelected: (id: string) => boolean
 }
 
 export const BoardContext = createContext<BoardContextType>({
-  // selectedTaskIds: [],
+  selectedTaskIds: [],
   isSelectMode: false,
   toggleSelectMode: () => {},
+  selectTask: () => {},
+  selectBulkTasks: () => {},
+  unselectBulkTasks: () => {},
+  unselectTask: () => {},
+  clearSelectedTasks: () => {},
+  isTaskSelected: () => false,
 })
