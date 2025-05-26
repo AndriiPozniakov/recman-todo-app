@@ -15,6 +15,7 @@ import { Icon } from '@components/Icon'
 interface DropdownMenuProps {
   triggerContent: ReactNode
   menuItems: TDropdownItem[]
+
   disabled?: boolean
   onSelect?: (eventKey: string) => void
 }
@@ -32,6 +33,7 @@ export const DropdownMenu = (props: DropdownMenuProps) => {
   return (
     <Dropdown open={open} setOpen={setOpen} onSelect={onSelect}>
       <DropdownTrigger
+        title="toggle dropdown menu"
         disabled={disabled}
         className={cx('rounded p-2 duration-300 ease-in-out', {
           'bg-grey-600': !disabled && open,

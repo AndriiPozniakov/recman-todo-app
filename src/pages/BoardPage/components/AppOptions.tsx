@@ -13,7 +13,7 @@ const COMPLETED_EVENT_KEY = 'completed'
 const UNCOMPLETED_EVENT_KEY = 'incomplete'
 
 export const AppOptions = () => {
-  const { columnOrder } = useColumnsStore()
+  const { columnOrder, moveSelectedTasks } = useColumnsStore()
   const { removeBulkTasks, markSelectedAsCompleted, markSelectedAsIncomplete } =
     useTaskStore()
 
@@ -36,6 +36,16 @@ export const AppOptions = () => {
     },
     { type: 'divider' },
     {
+      eventKey: 'move-left-selected',
+      title: 'Move left selected',
+      iconName: 'icon-arrow-left',
+    },
+    {
+      eventKey: 'move-right-selected',
+      title: 'Move right selected',
+      iconName: 'icon-arrow-right',
+    },
+    {
       eventKey: 'completed-all-selected',
       title: 'Mark all tasks as completed',
     },
@@ -43,6 +53,7 @@ export const AppOptions = () => {
       eventKey: 'incomplete-all-selected',
       title: 'Mark all tasks as incomplete',
     },
+    { type: 'divider' },
     { eventKey: 'delete-all-selected', title: 'Remove all selected tasks' },
   ]
 
@@ -67,6 +78,12 @@ export const AppOptions = () => {
       case 'incomplete-all-selected':
         markSelectedAsIncomplete(selectedTasks)
         clearSelectedTasks()
+        break
+      case 'move-left-selected':
+        moveSelectedTasks(selectedTasks, 'left')
+        break
+      case 'move-right-selected':
+        moveSelectedTasks(selectedTasks, 'right')
         break
       case 'delete-all-selected':
         removeBulkTasks(selectedTasks)

@@ -8,7 +8,7 @@ interface DropdownTriggerProps extends ComponentProps<'button'> {
 }
 
 export const DropdownTrigger = (props: DropdownTriggerProps) => {
-  const { children, className, ...rest } = props
+  const { title, children, className, ...rest } = props
   const { refs, setOpen, getReferenceProps } = useDropdownContext()
 
   return (
@@ -16,6 +16,8 @@ export const DropdownTrigger = (props: DropdownTriggerProps) => {
       {...rest}
       {...getReferenceProps()}
       ref={refs.setReference}
+      title={title}
+      aria-label={title}
       onClick={() => setOpen((prev) => !prev)}
       aria-haspopup="menu"
       className={className}

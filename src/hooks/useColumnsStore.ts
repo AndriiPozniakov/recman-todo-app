@@ -2,9 +2,16 @@ import { useMemo } from 'react'
 
 import { useTaskStore } from '@hooks/useTaskStore'
 
+import type { TDirection } from '@/types/direction'
+import type { TSelectedTask } from '@/types/selectedTask'
+
+import { useBoardContext } from '@/contexts/useBoardContext'
 import { useAppStore } from '@/store/useAppStore'
 
 export const useColumnsStore = () => {
+  const { updatedSelectedTasksAfterMove, getUpdatedSelectedTasksAfterMove } =
+    useBoardContext()
+
   const { tasks, removeTask } = useTaskStore()
 
   const columns = useAppStore((state) => state.columns)
@@ -67,6 +74,32 @@ export const useColumnsStore = () => {
     })
   }
 
+  const moveSelectedTasks = (
+    selectedTasks: TSelectedTask[],
+    direction: TDirection,
+  ) => {
+    const updatedSelectedTasks = getUpdatedSelectedTasksAfterMove(
+      selectedTasks,
+      columnOrder,
+      direction,
+    )
+
+    let order = 0
+
+    updatedSelectedTasks.forEach(({ taskId, columnId, destColumnId }) => {
+      const destColumn = columns[destColumnId]
+
+      if (!destColumn) return
+
+      const tasksCount = destColumn.taskIds.length
+
+      reorderTask(columnId, destColumnId, taskId, tasksCount + order)
+      order++
+    })
+
+    updatedSelectedTasksAfterMove(updatedSelectedTasks)
+  }
+
   return {
     columnsWithTasks,
     columns,
@@ -77,5 +110,6 @@ export const useColumnsStore = () => {
     reorderTask,
     removeColumnWithTasks,
     removeColumnAndMoveTasks,
+    moveSelectedTasks,
   }
 }

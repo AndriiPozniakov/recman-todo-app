@@ -214,12 +214,14 @@ export const TaskCard = (props: TaskCardProps) => {
             onEditingChange={setIsTitleEditing}
           />
 
-          <DropdownMenu
-            disabled={isSelectMode}
-            triggerContent={<Icon name="icon-three-dots" />}
-            onSelect={handleOnSelect}
-            menuItems={menuItems}
-          />
+          {!isSelectMode && (
+            <DropdownMenu
+              disabled={isSelectMode}
+              triggerContent={<Icon name="icon-three-dots" />}
+              onSelect={handleOnSelect}
+              menuItems={menuItems}
+            />
+          )}
         </div>
         <div className="flex items-center gap-2">
           <div

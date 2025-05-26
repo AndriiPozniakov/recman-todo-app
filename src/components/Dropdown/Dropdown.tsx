@@ -47,7 +47,7 @@ export const Dropdown = (props: DropdownProps) => {
       shift(),
       size({
         apply({ availableHeight, elements }) {
-          const maxHeight = Math.min(290, availableHeight)
+          const maxHeight = Math.min(389, availableHeight)
 
           Object.assign(elements.floating.style, {
             maxHeight: `${maxHeight}px`,

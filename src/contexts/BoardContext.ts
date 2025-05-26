@@ -1,6 +1,7 @@
 import { createContext } from 'react'
 
-import type { TSelectedTask } from '@/types/selectedTask'
+import type { TDirection } from '@/types/direction'
+import type { TMoveSelectedTask, TSelectedTask } from '@/types/selectedTask'
 
 interface BoardContextType {
   isSelectMode: boolean
@@ -16,6 +17,14 @@ interface BoardContextType {
   createNewTask: (id: string) => void
   resetNewTaskColumn: () => void
   createNewTaskColumnId: string | null
+  getUpdatedSelectedTasksAfterMove: (
+    selectedTasks: TSelectedTask[],
+    columnOrder: string[],
+    direction: TDirection,
+  ) => TMoveSelectedTask[]
+  updatedSelectedTasksAfterMove: (
+    updatedSelectedTasks: TMoveSelectedTask[],
+  ) => void
 }
 
 export const BoardContext = createContext<BoardContextType>({
@@ -32,4 +41,7 @@ export const BoardContext = createContext<BoardContextType>({
   createNewTask: () => {},
   resetNewTaskColumn: () => {},
   createNewTaskColumnId: null,
+
+  getUpdatedSelectedTasksAfterMove: () => [],
+  updatedSelectedTasksAfterMove: () => {},
 })

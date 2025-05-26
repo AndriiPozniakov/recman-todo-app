@@ -1,6 +1,7 @@
 import { type PropsWithChildren, useCallback, useMemo, useState } from 'react'
 
-import type { TSelectedTask } from '@/types/selectedTask'
+import type { TDirection } from '@/types/direction'
+import type { TMoveSelectedTask, TSelectedTask } from '@/types/selectedTask'
 
 import { BoardContext } from './BoardContext'
 
@@ -70,6 +71,45 @@ export const BoardProvider = ({ children }: PropsWithChildren) => {
     setCreateNewTaskColumnId(null)
   }, [])
 
+  const getUpdatedSelectedTasksAfterMove = useCallback(
+    (
+      selectedTasks: TSelectedTask[],
+      columnOrder: string[],
+      direction: TDirection,
+    ) => {
+      return selectedTasks.map(({ taskId, columnId }) => {
+        const currentIndex = columnOrder.indexOf(columnId)
+        if (currentIndex === -1)
+          return { taskId, columnId, destColumnId: columnId }
+
+        const newIndex =
+          direction === 'left' ? currentIndex - 1 : currentIndex + 1
+        if (newIndex < 0 || newIndex >= columnOrder.length) {
+          return { taskId, columnId, destColumnId: columnId }
+        }
+
+        return {
+          taskId,
+          columnId: columnOrder[currentIndex],
+          destColumnId: columnOrder[newIndex],
+        }
+      })
+    },
+    [],
+  )
+
+  const updatedSelectedTasksAfterMove = useCallback(
+    (updatedSelectedTasks: TMoveSelectedTask[]) => {
+      setSelectedTasks(
+        updatedSelectedTasks.map(({ taskId, destColumnId }) => ({
+          taskId,
+          columnId: destColumnId,
+        })),
+      )
+    },
+    [],
+  )
+
   const value = useMemo(
     () => ({
       isSelectMode,
@@ -84,6 +124,8 @@ export const BoardProvider = ({ children }: PropsWithChildren) => {
       createNewTask,
       createNewTaskColumnId,
       resetNewTaskColumn,
+      getUpdatedSelectedTasksAfterMove,
+      updatedSelectedTasksAfterMove,
     }),
     [
       isSelectMode,
@@ -98,6 +140,8 @@ export const BoardProvider = ({ children }: PropsWithChildren) => {
       createNewTask,
       createNewTaskColumnId,
       resetNewTaskColumn,
+      getUpdatedSelectedTasksAfterMove,
+      updatedSelectedTasksAfterMove,
     ],
   )
 
