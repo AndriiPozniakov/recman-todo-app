@@ -9,6 +9,7 @@ export const useTaskStore = () => {
   const toggleComplete = useAppStore((state) => state.toggleComplete)
   const renameTask = useAppStore((state) => state.renameTask)
   const addTaskToColumn = useAppStore((state) => state.addTaskToColumn)
+  const setCompleted = useAppStore((state) => state.setCompleted)
   const removeTaskFromColumn = useAppStore(
     (state) => state.removeTaskFromColumn,
   )
@@ -29,6 +30,14 @@ export const useTaskStore = () => {
     })
   }
 
+  const markSelectedAsCompleted = (tasks: TSelectedTask[]) => {
+    tasks.forEach(({ taskId }) => setCompleted(taskId, true))
+  }
+
+  const markSelectedAsIncomplete = (tasks: TSelectedTask[]) => {
+    tasks.forEach(({ taskId }) => setCompleted(taskId, false))
+  }
+
   return {
     tasks,
     addTask: handleAddNewTask,
@@ -37,5 +46,7 @@ export const useTaskStore = () => {
     removeBulkTasks: handleRemoveBulkTasks,
     toggleComplete,
     renameTask,
+    markSelectedAsIncomplete,
+    markSelectedAsCompleted,
   }
 }

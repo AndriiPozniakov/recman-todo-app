@@ -14,7 +14,8 @@ const UNCOMPLETED_EVENT_KEY = 'incomplete'
 
 export const AppOptions = () => {
   const { columnOrder } = useColumnsStore()
-  const { removeBulkTasks } = useTaskStore()
+  const { removeBulkTasks, markSelectedAsCompleted, markSelectedAsIncomplete } =
+    useTaskStore()
 
   const { statusFilter, toggleStatusFilter } = useFiltersContext()
   const { selectedTasks, clearSelectedTasks, createNewTask } = useBoardContext()
@@ -34,6 +35,14 @@ export const AppOptions = () => {
         statusFilter === UNCOMPLETED_EVENT_KEY ? 'icon-check' : undefined,
     },
     { type: 'divider' },
+    {
+      eventKey: 'completed-all-selected',
+      title: 'Mark all tasks as completed',
+    },
+    {
+      eventKey: 'incomplete-all-selected',
+      title: 'Mark all tasks as incomplete',
+    },
     { eventKey: 'delete-all-selected', title: 'Remove all selected tasks' },
   ]
 
@@ -50,6 +59,14 @@ export const AppOptions = () => {
       case 'completed':
       case 'incomplete':
         toggleStatusFilter(eventKey)
+        break
+      case 'completed-all-selected':
+        markSelectedAsCompleted(selectedTasks)
+        clearSelectedTasks()
+        break
+      case 'incomplete-all-selected':
+        markSelectedAsIncomplete(selectedTasks)
+        clearSelectedTasks()
         break
       case 'delete-all-selected':
         removeBulkTasks(selectedTasks)
